@@ -1,0 +1,22 @@
+{
+  "name": "ms1-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server . -a localhost -p 8000 -c-1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miopio/ms1-project.git"
+  },
+  "author": "Mio Akasako",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miopio/ms1-project/issues"
+  },
+  "homepage": "https://github.com/miopio/ms1-project#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
