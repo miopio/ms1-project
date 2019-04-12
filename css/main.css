@@ -52,9 +52,9 @@ body{background-color: #212121;
 
 }
 
-#container{
+.container{
     position: relative;
-    width: 90%;
+    width: 60%;
     text-align: justify;
     padding-right: 0px;
     padding-left: 0px;
@@ -62,15 +62,40 @@ body{background-color: #212121;
     box-sizing: border-box;
 }
 
+/*.graph{
+    position: relative;
+    width: 60%;
+    text-align: justify;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin: .5em auto;
+    box-sizing: border-box;
+} */
+
+#header-image{
+    width: 100%;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#main{
+    width: 100%;
+    text-align: center;
+}
+
 
 h1 {
-    font-family: 'Oswald', sans-serif;
+    font-family: poynter-oldstyle-display, serif;
+    font-weight: 700;
     color: white;
-    font-size: 4em;
+    font-size: 3em;
 }
 
 h2 {
-    font-family: 'Oswald', sans-serif;
+    font-family: poynter-oldstyle-display, serif;
+    font-weight: 700;
     font-size:2em;
     color: white;
 }
@@ -81,7 +106,8 @@ h3 {
 }
 
 p {
-    font-family: roboto, sans-serif;
+    font-family: 'Merriweather', serif;
+    font-size: 1.0em;
     color: white;
 }
 
@@ -98,6 +124,10 @@ img{
     font-family: questa-sans, sans-serif;
     color: white;
     float: left;
+}
+
+.container-0{
+    margin: 60px;
 }
 
 
