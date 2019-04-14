@@ -3,10 +3,17 @@ var margin = {top: 10, right: 30, bottom: 30, left: 30},
     width = 550 - margin.left - margin.right,
     height = 480 - margin.top - margin.bottom;
 
+//parse the date
+//var parseDate = d3.timeParse("%d-%m-%Y");
+var parseDate = d3.timeParse("%Y");
+
 // Set the ranges
-var x = d3.scaleLinear()
+/*var x = d3.scaleLinear()
     .rangeRound([0, width])
-    .domain([2, 11]);
+    .domain([1980, 2018]); */
+var x = d3.scaleTime()
+    .rangeRound([0,width])
+    .domain([new Date(1980, 1, 1), new Date(2018, 12, 31)])
 var y = d3.scaleLinear()
     .range([height, 0]);
 
@@ -35,7 +42,7 @@ var t = d3.transition()
 // Get the data
 d3.csv(file, function(error, data) {
     data.forEach(function(d) {
-        d.Year = +d.Year
+        d.Year = parseDate(d.Year)
         d.Name = d.Name
         d.Outcome = d.Outcome
         console.log(d.Year)
@@ -45,7 +52,7 @@ d3.csv(file, function(error, data) {
 
 console.log(data.length);
     // Scale the range of the data
-    // x.domain(d3.extent(data, function(d) { return d.Value; }));
+    //x.domain(d3.extent(data, function(d) { return d.Year; }));
     y.domain([0, data.length]);
 
 
