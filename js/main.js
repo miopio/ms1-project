@@ -1,7 +1,7 @@
 // Set the dimensions of the canvas / graph
 var margin = {top: 10, right: 30, bottom: 30, left: 30},
-    width = 550 - margin.left - margin.right,
-    height = 480 - margin.top - margin.bottom;
+    width = 700 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
@@ -36,7 +36,6 @@ function update(){
 var t = d3.transition()
       .duration(1000);
 
-// var file = "https://docs.google.com/spreadsheets/d/1-Vy9Yy4l8FBkP3n-ev9Ntr8TkNpHtginv3sPEVkV_i4/gviz/tq?tqx=out:csv&sheet=Sheet1"
  var file = "data/sexualMisconduct_science.csv"
 
 // Get the data
@@ -61,92 +60,102 @@ console.log(data.length);
 
     var histogram = d3.histogram()
       .domain(x.domain())
-      // Freedman–Diaconis rule
-      // .thresholds(d3.thresholdFreedmanDiaconis(data.map(function (d){ return d.Value}),
-      //                                          Math.min.apply(null, data.map(function (d){ return d.Value})),
-      //                                          Math.max.apply(null, data.map(function (d){ return d.Value}))))
       .thresholds(x.ticks(nbins))
       .value(function(d) { return d.Year;} )
 
     // Compute the histogram
-    var bins = histogram(data);
+    //var bins = histogram(data);
+    const bins = histogram(data).filter(d => d.length>0)
 
-    // radius dependent of data length
-    var radius = y(data.length-1)/2
-
-    // bins objects
-    var bin_container = svg.selectAll("g")
+ //g container for each bin
+    let binContainer = svg.selectAll(".gBin")
       .data(bins);
 
-    bin_container.enter().append("g")
-      // .attr("transform", function(d) { return "translate(" + (x(d.x0)+(x(d.x1)-x(d.x0))/2) + "," + y(data.length) + ")"; });
+    binContainer.exit().remove()
 
-    // JOIN new data with old elements.
-    var dots = bin_container.selectAll("circle")
-      .data(function(d) {
-        return d.map(function(data, i){return {"idx": i, "name": data.Outcome, "value": data.Year, "xpos": x(d.x0)+(x(d.x1)-x(d.x0))/2};})
-        });
+    let binContainerEnter = binContainer.enter()
+      .append("g")
+        .attr("class", "gBin")
+        .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
 
-    // EXIT old elements not present in new data.
-    dots.exit()
-        .attr("class", "exit")
-      .transition(t)
+    //need to populate the bin containers with data the first time
+    binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  //radius: (x(d.x1)-x(d.x0))/2
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+      .enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+            return - d.idx * 2 * d.radius - d.radius; })
         .attr("r", 0)
-        .remove();
+        //.on("mouseover", function(d, i){console.log(value[i])})
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
 
-    // UPDATE old elements present in new data.
-    dots.attr("class", "update");
+    binContainerEnter.merge(binContainer)
+        .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
+  });//d3.csv
+};//update
 
-    // ENTER new elements present in new data.
-    // var cdots = dots.enter().append("circle")
-    dots.enter().append("circle")
-      .attr("class", "enter")
-      .attr("cx", function (d) {return d.xpos;})
-      // .attr("cy", 0)
-      .attr("cy", function(d) {
-          return y(d.idx)-radius; })
-      // .attr("r", function(d) { return (d.length==0) ? 0 : radius; })
-      .attr("r", 0)
-      //.style("fill", "steelblue")
-      .merge(dots)
-      .on("mouseover", function(d) {
-          d3.select(this)
-            .style("fill", "red")
-          tooltip.transition()
-               .duration(200)
-               .style("opacity", .9);
-          tooltip.html(d.Name + "<br/> (" + d.Outcome + ")")
-            .style("left", d3.select(this).attr("cx") + "px")
-            .style("top", (d3.select(this).attr("cy")-50) + "px");
-        })
-        .on("mouseout", function(d) {
-          d3.select(this)
-              .style("fill", "steelblue");
-            tooltip.transition()
-                 .duration(500)
-                 .style("opacity", 0);
-        })
-      .transition()
-        .duration(500)
-        .attr("r", function(d) {
-        return (d.length==0) ? 0 : radius; });
-      // .style("fill", "black");;
+function tooltipOn(d) {
+  //x position of parent g element
+  let gParent = d3.select(this.parentElement)
+  let translateValue = gParent.attr("transform")
 
-});
-};
+  let gX = translateValue.split(",")[0].split("(")[1]
+  let gY = height + (+d3.select(this).attr("cy")- 1500)
 
+  d3.select(this)
+    .classed("selected", true)
+    .style("fill", "red")
+  tooltip.transition()
+       .duration(200)
+       .style("opacity", .9);
+  tooltip.html("<b>" + d.name + "</b>" + "</br>" + d.value + "</br>" + d.institution + "</br>" + d.discipline)
+  //tooltip.html("Hellohellohello")
+    .style("left", gX/200 + "px")
+    .style("top", gY/10 + "px")
+    //console.log(d.Name + "and" + d.Outcome)
+    //console.log(this.Name);
+}//tooltipOn
+
+function tooltipOff(d) {
+  d3.select(this)
+      .classed("selected", false)
+      .style("fill", "#FF9999");
+    tooltip.transition()
+         .duration(500)
+         .style("opacity", 0);
+}//tooltipOff
+
+
+
+// add x axis
 svg.append("g")
-.attr("class", "axis axis--x")
-.attr("transform", "translate(0," + height + ")")
-.call(d3.axisBottom(x));
+  .attr("class", "axis axis--x")
+  .attr("transform", "translate(0," + height + ")")
+  .style("stroke", "white")
+  .call(d3.axisBottom(x));
 
 //draw everything
 update();
-update();
 
-
-// check and update every 2 sec
+//update with new data every 3sec
 /*d3.interval(function() {
   update();
-}, 2000);*/
+}, 3000);*/
+
 
