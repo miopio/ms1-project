@@ -1,7 +1,7 @@
 // Set the dimensions of the canvas / graph
 var margin = {top: 10, right: 30, bottom: 30, left: 30},
-    width = 700 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 1000 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
@@ -44,9 +44,11 @@ d3.csv(file, function(error, data) {
         d.Year = parseDate(d.Year)
         d.Name = d.Name
         d.Outcome = d.Outcome
+        d.Color = d.Color
         console.log(d.Year)
         console.log(d.Name)
         console.log(d.Outcome);
+        console.log(d.Color);
     });
 
 console.log(data.length);
@@ -86,6 +88,7 @@ console.log(data.length);
                   value: p.Outcome,
                   institution: p["Institution and/or Professional Society"],
                   discipline: p["Discipline or Domain"],
+                  color: p.Color,
                   //radius: (x(d.x1)-x(d.x0))/2
                   radius: (x(d.x1)-x(d.x0))*1.5
                 }
@@ -97,6 +100,7 @@ console.log(data.length);
         .attr("cy", function(d) {
             return - d.idx * 2 * d.radius - d.radius; })
         .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
         //.on("mouseover", function(d, i){console.log(value[i])})
         .on("mouseover", tooltipOn)
         .on("mouseout", tooltipOff)
@@ -109,6 +113,12 @@ console.log(data.length);
         .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
   });//d3.csv
 };//update
+
+/*function color(d){
+  d3.select(this)
+    .classed("selected", false)
+    .style("fill", d.color)
+}*/
 
 function tooltipOn(d) {
   //x position of parent g element
@@ -135,7 +145,7 @@ function tooltipOn(d) {
 function tooltipOff(d) {
   d3.select(this)
       .classed("selected", false)
-      .style("fill", "#FF9999");
+      .style("fill", function(d){ return d.color; })
     tooltip.transition()
          .duration(500)
          .style("opacity", 0);

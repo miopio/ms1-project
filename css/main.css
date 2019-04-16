@@ -85,6 +85,9 @@ body{background-color: #212121;
     text-align: center;
 }
 
+#chart{
+    width: 100%;
+}
 
 h1 {
     font-family: poynter-oldstyle-display, serif;
@@ -130,9 +133,10 @@ img{
     margin: 60px;
 }
 
-.enter {
+/*.enter {
   fill: #EDCA3A;
-}
+  ["#fe0000", "#f7931e", "#f8a395", "#e41a72", "#fcd107", "#f365e7", "#a0581c", "#a90aa1", "#e6d3a5"]
+}*/
 
 .selected {
   fill: #FF9999;
