@@ -17,32 +17,25 @@
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.typekit.net/uzk8xxv.css">
   <link rel="stylesheet" href="https://use.typekit.net/bvy0sju.css">
-  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Merriweather:300" rel="stylesheet">
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src= js/d3-timeline.js></script>
 </head>
 
 <body>
-  <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-  <![endif]-->
-
-  <!-- Add your site or application content here -->
   <div id = "header-image">
     <img src="img/header_image.png" alt="header image placeholder" align = center>
   </div>
   <div id = "container-0" class = "container">
     <p>Gender inequality, sexual harassment, sexual assault--in recent years, these terms have been so commonplace in the collective colloquial verbatim that it does not strike as odd to hear a casual conversation about street harassment, or get caught up in a wave of public outrage over the latest figure convicted of sexual assault. And yet, this is but a contemporary phenomenon. Such a visible approach to matters of sexual harassment would have been unthinkable in the past; far from being the potentially empowering and validating act that it is now, to participate in public allegation meant a near complete emotional, social, and career suicide. On one hand, if women had the courage to speak up, their voices were devalued and experiences swept under the rug; on the other, women often barred themselves from speaking out due to the societally enforced burden of self-blame and shame. Shockingly, many women have had trouble even acknowledging their experiences as sexual violence--in a sweeping review conducted over 28 studies of women who were raped after the age of 14, it was found that 60.4% of the 5,917 women in the studies did not recognize their experiences as rape, even though it fit the standard definition. How did these attitudes towards sexual harassment, so entrenched in the cultural manifold our society, begin to shift?</p>
-
-    <p>We can attribute one of the movers of our cultural manifold to the now famous #MeToo movement. A term originally coined in 2006 by civil rights activist Tarana Burke, it reemerged in October of 2017 in the Twittersphere, where actress Alyssa Milano used it as a hashtag to highlight sexual abuse by the Hollywood titan Harvey Weinstein, calling out for fellow survivors of sexual violation to step forward and join in on highlighting similar experiences. Though not a new idea by any means, a global phenomenon of viral proportions ensued--similar hashtags popped up in every region of the world, and produced very tangible recognition of the legitimacy of women’s voices. We saw Harvey Weinstein and Bill Cosby fall to an uprising of women with the audacity to speak up. We saw incredible media coverage, not in the conciliatory tone often adopted when defending the perpetrator, but in, at the very least, a neutral perspective. In the New York Times, the number of articles that mention sexual harassment has spiked in the wake of the #MeToo movement:  the number has tripled from 2016 to 2017, and quadrupled from 2016 to 2018. Indeed, sexual harassment is at last being portrayed by mainstream media as less epidemic than endemic, less isolated than pervasive.</p>
   </div>
   <div id = "container-1" class = "container">
     <h2>Why is sexism and sexual harassment particularly bad in STEM academia?</h2>
     <p>The answer is not straightforward, though cautiously promising. Since the advent of the #MeToo movement, there has been a spike in activism within STEM fields as well. Several high-profile investigators have left their positions after sexual harassment investigations, including geneticist Francisco Ayala, cancer biologist Inder Verma, and astrophysicist Christina Ott. Over two years ago, Julie Libarkin, a professor at Michigan State University, started compiling a database of publicly available cases of sexual misconduct in academia. Now, this report includes over 700 cases of misconduct throughout US institutions. Looking at the numbers of cases across the years, there is a definite uptrend in reported cases since 2017, in both STEM and non-STEM fields. </p>
     <div class = "graph">
       <p>insert graph: sexual harassment statistics in academia </p>
-      <img src="img/fig1.png" alt="#MeToo vs #MeTooSTEM">
       <p>insert graph 2: rates of misconduct reportings: first half of misconduct graph</p>
       <img src="img/MS1_quantitative_top.png" alt="Rates of misconduct reportings">
     </div>
@@ -50,150 +43,21 @@
   <div id = "container-2" class = "container">
     <h2>Point 1. Sexual misconduct cases & their outcomes</h2>
     <p>Perpetrators are often not held accountable, or held accountable by their institution, but still included in powerful organizations that can influence careers of scientists</p>
-    <div class = "graph">
-       <img src="img/MS1_quantitative_bottom.png" alt="Rates of misconduct reportings">
-    </div>
+    <div id="chart"></div>
   </div>
-  <div id="main">
-    <svg width="960" height="500"></svg>
-  </div>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script>
-    // create the svg
-/*  var svg = d3.select("svg").html('')
-      margin = {top: 20, right: 20, bottom: 30, left: 40},
-      width = +svg.attr("width") - margin.left - margin.right,
-      height = +svg.attr("height") - margin.top - margin.bottom,
-      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  // set x scale
-  var x = d3.scaleBand()
-      .rangeRound([0, width])
-      .paddingInner(0.05)
-      .align(0.1);
-
-  // set y scale
-  var y = d3.scaleLinear()
-      .rangeRound([height, 0]);
-
-  // set the colors
-  var z = d3.scaleOrdinal()
-      //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "ffb6c1"]);
-      .range(['#66c2a5','#fc8d62','#8da0cb','#e78ac3','#a6d854','#ffd92f','#e5c494','#b3b3b3']);
-
-  // load the csv and create the chart
-  d3.csv("data/SexualMisconduct_clean.csv", function(d, i, columns) {
-    for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
-    d.total = t;
-    return d;
-  }, function(error, data) {
-    if (error) throw error;
-
-    console.log("csv loaded");
-
-    var keys = data.columns.slice(1);
-    console.log(keys);
-
-    //data.sort(function(a, b) { return b.total - a.total; });
-    x.domain(data.map(function(d) { return d.Year; }));
-    y.domain([0, d3.max(data, function(d) { return d.total; })]).nice();
-    z.domain(keys);
-
-    g.append("g")
-      .selectAll("g")
-      .data(d3.stack().keys(keys)(data))
-      .enter().append("g")
-        .attr("fill", function(d) { return z(d.key); })
-      .selectAll("rect")
-      .data(function(d) { return d; })
-      .enter().append("rect")
-        .attr("x", function(d) { return x(d.data.Year); })
-        .attr("y", function(d) { return y(d[1]); })
-        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-        .attr("width", x.bandwidth())
-      .on("mouseover", function() { tooltip.style("display", null); })
-      .on("mouseout", function() { tooltip.style("display", "none"); })
-      .on("mousemove", function(d) {
-        console.log(d);
-        var xPosition = d3.mouse(this)[0] - 5;
-        var yPosition = d3.mouse(this)[1] - 5;
-        tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-        tooltip.select("text").text(d[1]-d[0]);
-      });
-
-    g.append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x))
-        .attr("stroke", "#fff");
-
-    g.append("g")
-        .attr("class", "axis")
-        .call(d3.axisLeft(y).ticks(null, "s"))
-        .attr("stroke", "#fff")
-      .append("text")
-        .attr("x", 2)
-        .attr("y", y(y.ticks().pop()) + 0.5)
-        .attr("dy", "0.32em")
-        .attr("stroke", "#fff")
-        .attr("font-weight", "bold")
-        .attr("text-anchor", "start")
-
-
-  //Legend
-    var legend = g.append("g")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
-        .attr("fill", "#fff")
-        .attr("text-anchor", "end")
-      .selectAll("g")
-      .data(keys.slice().reverse())
-      .enter().append("g")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-    legend.append("rect")
-        .attr("x", width - 19)
-        .attr("width", 19)
-        .attr("height", 19)
-        .attr("fill", z);
-
-    legend.append("text")
-        .attr("x", width - 24)
-        .attr("y", 9.5)
-        .attr("dy", "0.32em")
-        .text(function(d) { return d; });
-  });
-
-    // Prep the tooltip bits, initial display is hidden
-    var tooltip = svg.append("g")
-      .attr("class", "tooltip")
-      .style("display", "hidden");
-        
-    tooltip.append("rect")
-      .attr("width", 60)
-      .attr("height", 20)
-      .attr("fill", "white")
-      .style("opacity", 0.5);
-
-    tooltip.append("text")
-      .attr("x", 30)
-      .attr("dy", "1.2em")
-      .style("text-anchor", "middle")
-      .attr("font-size", "12px")
-      .attr("font-weight", "bold")
-      .attr("fill", "#fff"); */
-    </script>
   <div id = "container-3" class = "container">
     <h2>Point 1 case studies: patterns in misconduct cases</h2>
     <p>Focus on notable cases: Inder Verma, Francisco Ayala</p>
-    <div class = "graph">
-      <p>Timeline studies of cases?</p>
-      <img src="img/fig2.png" alt="#case studies">
-    </div>
+    <p>Timeline studies of cases?</p>
+    <img src="img/ms1-project.svg" alt="#inder verma">
+    <div id="chart1"></div>
   </div>
   <div id = "container-4" class = "container">
     <h2>Point 2. Retention of women in STEM academia</h2>
     <p>Retention of women in STEM academia is bad because of sexism and unequal treatment by institutions.</p>
+    <div id = "vis">
+      <button id="play-button">Play</button>
+    </div>
     <div class = "graph">
       <p>NYU equity study information: NYU has 8 years of reporting on academic position salary, gender, diversity, etcetc.</p>
       <img src="" alt="#cluster analysis">
@@ -213,8 +77,6 @@
     <div class = "graph">
     </div>
   </div>
-  <div id="chart"></div>
-
   
   <script src="js/main.js"></script>
 
