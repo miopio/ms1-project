@@ -216,7 +216,7 @@ var y1 = d3.scaleLinear()
     .range([0, height1]);*/
 
 var x1 = d3.scaleTime()
-        .domain([new Date(1970, 1, 1), new Date(2018, 12, 31)])
+        .domain([new Date(1970, 1, 1), new Date(2020, 12, 31)])
         .rangeRound([0, width1]);
 var x2 = d3.scaleLinear()
     .range([0, width1]);
@@ -247,6 +247,7 @@ d3.csv(file1, function(error, data) {
         d.endYear = parseDate(d.End)
         d.Name = d.Name
         d.Incident = d.Incident
+        d.Date = d.Date
         console.log(d.startYear)
         console.log(d.Incident)
         console.log(d.endYear-d.startYear+1)
@@ -254,11 +255,19 @@ d3.csv(file1, function(error, data) {
 
 console.log(data.length);
 
-    x1.domain([0, d3.max(data, function(d) { return d.endYear; })]);
+    x1.domain([0, d3.max(data, function(d) { return d.startYear; })]);
+    g1.append("rect")
+      //.attr("class", "bar")
+      .attr("fill", "#696969")
+      .attr("opacity", 1.0)
+      .attr("x", x1(parseDate(1970)))
+      .attr("height", 50)
+      .attr("y", 100)
+      .attr("width", x1(parseDate(2020)));
     //x1.domain(d3.extent(data, function(d) { return d.End; }));
     //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
 
-   /* g1.append("g")
+   /*g1.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height1 + ")")
         .style("stroke", "white")
@@ -268,23 +277,12 @@ console.log(data.length);
     //    .attr("class", "y axis")
     //    .call(d3.axisLeft(y));
 
-    //mini item rects
-    /*g1.append("g").selectAll(".bar")
-      .data(data)
-      .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) {return x1(d.startYear);})
-      .attr("y", function(d) {return y2(100 + .5) - 5;})
-      .attr("width", function(d) {return x1(d.endYear - d.startYear) + 1;})
-      .attr("height", 10);*/
-
-
     g1.selectAll(".bar")
         .data(data)
       .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function(d){return x1(d.startYear)})
-        .attr("height", 100)
+        .attr("height", 50)
         .attr("y", 100)
         //.attr("width", function(d){ return x1(d.end - d.start)})
         .attr("width", function(d) {return x1(d.endYear - d.startYear) + 1;})
@@ -295,178 +293,14 @@ console.log(data.length);
               .style("top", height1 + (+d3.select(this).attr("y")- 1000))
               .style("opacity", .9)
               .style("display", "inline-block")
-              .html((d.Name) + "<br>" + (d.Incident));
+              .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
         })
-        .on("mouseout", function(d){ tooltip1.style("display", "none");});
+        .on("mouseout", function(d){ tooltip1.style("display", "none");})
 });
 
 svg1.append("g")
   .attr("class", "axis axis--x")
-  .attr("transform", "translate(0," + height + ")")
+  .attr("transform", "translate(0," + height1 + ")")
   .style("stroke", "white")
   .call(d3.axisBottom(x1)); 
-
-//TEST
-
-
-
-/*var formatDateIntoYear = d3.timeFormat("%Y");
-var formatDate = d3.timeFormat("%b %Y");
-var parseDate = d3.timeParse("%m/%d/%y");
-
-var startDate = new Date("1970-01-01"),
-    endDate = new Date("2018-12-31");
-
-var margin2 = {top:50, right:50, bottom:0, left:50},
-    width2 = 960 - margin2.left - margin2.right,
-    height2 = 500 - margin2.top - margin2.bottom;
-
-var svg2 = d3.select("#vis")
-    .append("svg")
-    .attr("width", width2 + margin.left + margin.right)
-    .attr("height", height2 + margin.top + margin.bottom);  
-
-////////// slider //////////
-
-var moving = false;
-var currentValue = 0;
-var targetValue = width2;
-
-var playButton = d3.select("#play-button");
-    
-var x = d3.scaleTime()
-    .domain([startDate, endDate])
-    .range([0, targetValue])
-    .clamp(true);
-
-var slider = svg2.append("g")
-    .attr("class", "slider")
-    .attr("transform", "translate(" + margin2.left + "," + height2/5 + ")");
-
-slider.append("line")
-    .attr("class", "track")
-    .attr("x1", x.range()[0])
-    .attr("x2", x.range()[1])
-  .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-    .attr("class", "track-inset")
-  .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-    .attr("class", "track-overlay")
-    .call(d3.drag()
-        .on("start.interrupt", function() { slider.interrupt(); })
-        .on("start drag", function() {
-          currentValue = d3.event.x;
-          update(x.invert(currentValue)); 
-        })
-    );
-
-slider.insert("g", ".track-overlay")
-    .attr("class", "ticks")
-    .attr("transform", "translate(0," + 18 + ")")
-  .selectAll("text")
-    .data(x.ticks(10))
-    .enter()
-    .append("text")
-    .attr("x", x)
-    .attr("y", 10)
-    .attr("text-anchor", "middle")
-    .text(function(d) { return formatDateIntoYear(d); });
-
-var handle = slider.insert("circle", ".track-overlay")
-    .attr("class", "handle")
-    .attr("r", 9);
-
-var label = slider.append("text")  
-    .attr("class", "label")
-    .attr("text-anchor", "middle")
-    .text(formatDate(startDate))
-    .attr("transform", "translate(0," + (-25) + ")")
-
- 
-////////// plot //////////
-
-var dataset;
-
-var plot = svg2.append("g")
-    .attr("class", "plot")
-    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
-
-d3.csv("data/circles.csv", prepare, function(data) {
-  dataset = data;
-  drawPlot(dataset);
-  
-  playButton
-    .on("click", function() {
-    var button = d3.select(this);
-    if (button.text() == "Pause") {
-      moving = false;
-      clearInterval(timer);
-      // timer = 0;
-      button.text("Play");
-    } else {
-      moving = true;
-      timer = setInterval(step, 100);
-      button.text("Pause");
-    }
-    console.log("Slider moving: " + moving);
-  })
-})
-
-function prepare(d) {
-  d.id = d.id;
-  d.date = parseDate(d.date);
-  return d;
-}
-  
-function step() {
-  update(x.invert(currentValue));
-  currentValue = currentValue + (targetValue/151);
-  if (currentValue > targetValue) {
-    moving = false;
-    currentValue = 0;
-    clearInterval(timer);
-    // timer = 0;
-    playButton.text("Play");
-    console.log("Slider moving: " + moving);
-  }
-}
-
-function drawPlot(data) {
-  var locations = plot.selectAll(".location")
-    .data(data);
-
-  // if filtered dataset has more circles than already existing, transition new ones in
-  locations.enter()
-    .append("circle")
-    .attr("class", "location")
-    .attr("cx", function(d) { return x(d.date); })
-    .attr("cy", height/2)
-    .style("fill", function(d) { return d3.hsl(d.date/1000000000, 0.8, 0.8)})
-    .style("stroke", function(d) { return d3.hsl(d.date/1000000000, 0.7, 0.7)})
-    .style("opacity", 0.5)
-    .attr("r", 8)
-      .transition()
-      .duration(400)
-      .attr("r", 25)
-        .transition()
-        .attr("r", 8);
-
-  // if filtered dataset has less circles than already existing, remove excess
-  locations.exit()
-    .remove();
-}
-
-function update(h) {
-  // update position and text of label according to slider scale
-  handle.attr("cx", x(h));
-  label
-    .attr("x", x(h))
-    .text(formatDate(h));
-
-  // filter data set and redraw plot
-  var newData = dataset.filter(function(d) {
-    return d.date < h;
-  })
-  drawPlot(newData);
-}*/
-
 
