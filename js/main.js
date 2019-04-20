@@ -142,7 +142,7 @@ function tooltipOn(d) {
     "</a>")
   //tooltip.html("Hellohellohello")
     .style("left", gX/200 + "px")
-    .style("top", gY/10 + "px")
+    .style("top", gY/3 + "px")
     //console.log(d.Name + "and" + d.Outcome)
     //console.log(this.Name);
 }//tooltipOn
@@ -156,8 +156,6 @@ function tooltipOff(d) {
          .duration(500)
          .style("opacity", 0);
 }//tooltipOff
-
-
 
 // add x axis
 svg.append("g")
@@ -209,13 +207,22 @@ var parseDate = d3.timeParse("%Y");
 
 // Set the ranges
 /*var x = d3.scaleLinear()
-    .rangeRound([0, width])
+    .rangeRound([0, width1])
     .domain([1980, 2018]); */
-var x1 = d3.scaleTime()
+/*var x1 = d3.scaleTime()
     .rangeRound([0,width1])
     .domain([new Date(1970, 1, 1), new Date(2018, 12, 31)])
 var y1 = d3.scaleLinear()
-    .range([height1, 0]);
+    .range([0, height1]);*/
+
+var x1 = d3.scaleTime()
+        .domain([new Date(1970, 1, 1), new Date(2018, 12, 31)])
+        .rangeRound([0, width1]);
+var x2 = d3.scaleLinear()
+    .range([0, width1]);
+var y2 = d3.scaleLinear()
+    .domain([0, 23])
+    .range([0, height1]);
 
 // Adds the svg canvas
 var svg1 = d3.select("#chart1")
@@ -241,50 +248,63 @@ d3.csv(file1, function(error, data) {
         d.Name = d.Name
         d.Incident = d.Incident
         console.log(d.startYear)
+        console.log(d.Incident)
+        console.log(d.endYear-d.startYear+1)
     });
 
 console.log(data.length);
 
-    x1.domain([0, d3.max(data, function(d) { return d.End; })]);
+    x1.domain([0, d3.max(data, function(d) { return d.endYear; })]);
+    //x1.domain(d3.extent(data, function(d) { return d.End; }));
     //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
 
-    g1.append("g")
+   /* g1.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height1 + ")")
         .style("stroke", "white")
-        .call(d3.axisBottom(x));
         //.call(d3.axisBottom(x).ticks(5).tickFormat(function(d) { return parseInt(d / 1000); }).tickSizeInner([-height1]));
-
+*/
     //g1.append("g1")
     //    .attr("class", "y axis")
     //    .call(d3.axisLeft(y));
+
+    //mini item rects
+    /*g1.append("g").selectAll(".bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) {return x1(d.startYear);})
+      .attr("y", function(d) {return y2(100 + .5) - 5;})
+      .attr("width", function(d) {return x1(d.endYear - d.startYear) + 1;})
+      .attr("height", 10);*/
+
 
     g1.selectAll(".bar")
         .data(data)
       .enter().append("rect")
         .attr("class", "bar")
-        .attr("x", function(d){return (d.start)})
+        .attr("x", function(d){return x1(d.startYear)})
         .attr("height", 100)
         .attr("y", 100)
         //.attr("width", function(d){ return x1(d.end - d.start)})
-        .attr("width", 2)
+        .attr("width", function(d) {return x1(d.endYear - d.startYear) + 1;})
         //.attr("width", function(d) { return x(d.Start); })
-        .on("mousemove", function(d){
+        .on("mouseover", function(d){
             tooltip1
               .style("left", d3.event.pageX +100 + "px")
-              .style("top", d3.event.pageY - 500 + "px")
+              .style("top", height1 + (+d3.select(this).attr("y")- 1000))
               .style("opacity", .9)
               .style("display", "inline-block")
               .html((d.Name) + "<br>" + (d.Incident));
         })
-        //.on("mouseout", function(d){ tooltip1.style("display", "none");});
+        .on("mouseout", function(d){ tooltip1.style("display", "none");});
 });
 
-/*svg1.append("g")
+svg1.append("g")
   .attr("class", "axis axis--x")
   .attr("transform", "translate(0," + height + ")")
   .style("stroke", "white")
-  .call(d3.axisBottom(x)); */
+  .call(d3.axisBottom(x1)); 
 
 //TEST
 
