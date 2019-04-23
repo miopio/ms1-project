@@ -195,7 +195,7 @@ svg.append("g")
 //SEXUAL MISCONDUCT CASE STUDIES
 var margin1 = {top: 10, right: 30, bottom: 30, left: 30},
     width1 = 700 - margin1.left - margin1.right,
-    height1 = 300 - margin1.top - margin1.bottom;
+    height1 = 200 - margin1.top - margin1.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
@@ -305,13 +305,15 @@ function getpos(event) {
               .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
         })
         .on("mouseout", function(d){ tooltip1.style("display", "none");})
+
+      g1.selectAll(".caption")
 });
 
 // CHART 2
 
 var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
     width1a = 700 - margin1a.left - margin1a.right,
-    height1a = 300 - margin1a.top - margin1a.bottom;
+    height1a = 200 - margin1a.top - margin1a.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
