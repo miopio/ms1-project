@@ -104,12 +104,12 @@ h2 {
 }
 
 h3 {
-    font-size:2em;
+    font-size:1.5em;
     color: white;
 }
 
 p {
-    font-family: 'Merriweather', serif;
+    font-family: 'future-pt', sans-serif;
     font-size: 1.0em;
     color: white;
 }
@@ -143,7 +143,7 @@ img{
 }
 
 .bar {
-    fill: #FF5349;
+    /*fill: #FF5349;*/
     opacity: 0.5;
 }
 

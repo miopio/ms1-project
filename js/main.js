@@ -189,21 +189,17 @@ svg.append("g")
         .attr("dy", "0.32em")
         .text(function(d) { return d; }); 
 
-          
-
-//draw everything
-//update();
-
+    
 
 
 //SEXUAL MISCONDUCT CASE STUDIES
 var margin1 = {top: 10, right: 30, bottom: 30, left: 30},
     width1 = 700 - margin1.left - margin1.right,
-    height1 = 500 - margin1.top - margin1.bottom;
+    height1 = 300 - margin1.top - margin1.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
-var parseDate = d3.timeParse("%Y");
+var parseDate1 = d3.timeParse("%m/%d/%Y");
 
 // Set the ranges
 /*var x = d3.scaleLinear()
@@ -243,8 +239,8 @@ var g1 = svg1.append("g")
 // Get the data
 d3.csv(file1, function(error, data) {
     data.forEach(function(d) {
-        d.startYear = parseDate(d.Start)
-        d.endYear = parseDate(d.End)
+        d.startYear = parseDate1(d.Start)
+        d.endYear = parseDate1(d.End)
         d.Name = d.Name
         d.Incident = d.Incident
         d.Date = d.Date
@@ -253,17 +249,23 @@ d3.csv(file1, function(error, data) {
         console.log(d.endYear-d.startYear+1)
     });
 
-console.log(data.length);
+console.log(data.length); 
+
+function getpos(event) {
+  var e = window.event;
+  xtool = e.clientX + "px";
+  ytool = e.clientY + "px";
+}
 
     x1.domain([0, d3.max(data, function(d) { return d.startYear; })]);
     g1.append("rect")
       //.attr("class", "bar")
       .attr("fill", "#696969")
       .attr("opacity", 1.0)
-      .attr("x", x1(parseDate(1970)))
+      .attr("x", x1(parseDate1("01/01/1970")))
       .attr("height", 50)
       .attr("y", 100)
-      .attr("width", x1(parseDate(2020)));
+      .attr("width", x1(parseDate1("01/01/2020")));
     //x1.domain(d3.extent(data, function(d) { return d.End; }));
     //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
 
@@ -285,12 +287,19 @@ console.log(data.length);
         .attr("height", 50)
         .attr("y", 100)
         //.attr("width", function(d){ return x1(d.end - d.start)})
-        .attr("width", function(d) {return x1(d.endYear - d.startYear) + 1;})
+        .attr("width", function(d) {return x1(d.endYear - d.startYear) + 2;})
+        .attr("fill", function(d) {
+          if (d.Name == "NA") {
+            return "white";
+          }
+            return "red";
+          })
         //.attr("width", function(d) { return x(d.Start); })
         .on("mouseover", function(d){
             tooltip1
-              .style("left", d3.event.pageX +100 + "px")
-              .style("top", height1 + (+d3.select(this).attr("y")- 1000))
+              .style("left", x1(100))
+              //.style("top", height1 + (+d3.select(this).attr("y")- 500))
+              .style("top", height1+2000)
               .style("opacity", .9)
               .style("display", "inline-block")
               .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
@@ -298,9 +307,125 @@ console.log(data.length);
         .on("mouseout", function(d){ tooltip1.style("display", "none");})
 });
 
-svg1.append("g")
-  .attr("class", "axis axis--x")
+// CHART 2
+
+var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
+    width1a = 700 - margin1a.left - margin1a.right,
+    height1a = 300 - margin1a.top - margin1a.bottom;
+
+//parse the date
+//var parseDate = d3.timeParse("%d-%m-%Y");
+var parseDate1a = d3.timeParse("%m/%d/%Y");
+
+var x1a = d3.scaleTime()
+        .domain([new Date(1970, 1, 1), new Date(2020, 12, 31)])
+        .rangeRound([0, width1a]);
+var x2a = d3.scaleLinear()
+    .range([0, width1a]);
+var y2a = d3.scaleLinear()
+    .domain([0, 23])
+    .range([0, height1a]);
+
+// Adds the svg canvas
+var svg1a = d3.select("#chart2")
+  .append("svg")
+    .attr("width", width1a + margin1a.left + margin1a.right)
+    .attr("height", height1a + margin1a.top + margin1a.bottom);
+
+// add the tooltip area to the webpage
+var tooltip1 = d3.select("#chart2").append("div")
+    .attr("class", "tooltip1")
+    .style("opacity", 0);
+
+var file1a = "data/caseStudy_Ayala.csv";
+
+var g1a = svg1a.append("g")
+    .attr("transform", "translate(" + margin1a.left + "," + margin1a.top + ")");
+
+// Get the data
+d3.csv(file1a, function(error, data) {
+    data.forEach(function(d) {
+        d.startYear = parseDate1(d.Start)
+        d.endYear = parseDate1(d.End)
+        d.Name = d.Name
+        d.Incident = d.Incident
+        d.Date = d.Date
+        console.log(d.startYear)
+        console.log(d.Incident)
+        console.log(d.endYear-d.startYear+1)
+    });
+
+console.log(data.length); 
+
+function getpos(event) {
+  var e = window.event;
+  xtool = e.clientX + "px";
+  ytool = e.clientY + "px";
+}
+
+    x1a.domain([0, d3.max(data, function(d) { return d.startYear; })]);
+    g1a.append("rect")
+      //.attr("class", "bar")
+      .attr("fill", "#696969")
+      .attr("opacity", 1.0)
+      .attr("x", x1a(parseDate1a("01/01/1970")))
+      .attr("height", 50)
+      .attr("y", 100)
+      .attr("width", x1a(parseDate1a("01/01/2020")));
+    //x1.domain(d3.extent(data, function(d) { return d.End; }));
+    //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
+
+   /*g1.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height1 + ")")
+        .style("stroke", "white")
+        //.call(d3.axisBottom(x).ticks(5).tickFormat(function(d) { return parseInt(d / 1000); }).tickSizeInner([-height1]));
+*/
+    //g1.append("g1")
+    //    .attr("class", "y axis")
+    //    .call(d3.axisLeft(y));
+
+    g1a.selectAll(".bar")
+        .data(data)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d){return x1a(d.startYear)})
+        .attr("height", 50)
+        .attr("y", 100)
+        //.attr("width", function(d){ return x1(d.end - d.start)})
+        .attr("width", function(d) {return x1a(d.endYear - d.startYear) + 2;})
+        .attr("fill", function(d) {
+          if (d.Name == "NA") {
+            return "white";
+          }
+            return "red";
+          })
+        //.attr("width", function(d) { return x(d.Start); })
+        .on("mouseover", function(d){
+            tooltip1
+              .style("left", x1a(100))
+              //.style("top", height1 + (+d3.select(this).attr("y")- 500))
+              .style("top", height1a+2000)
+              .style("opacity", .9)
+              .style("display", "inline-block")
+              .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
+        })
+        .on("mouseout", function(d){ tooltip1.style("display", "none");})
+});
+
+/*  .attr("class", "axis axis--x")
   .attr("transform", "translate(0," + height1 + ")")
   .style("stroke", "white")
-  .call(d3.axisBottom(x1)); 
+  .call(d3.axisBottom(x1)); */
+
+/*function getpos(event) {
+  var e = window.event;
+  x = e.clientX + "px";
+  y = e.clientY + "px";
+}
+
+getpos(); //run wherever you call
+tooltip.style.left = x;
+tooltip.style.top = y; */
+
 
