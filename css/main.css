@@ -54,7 +54,7 @@ body{background-color: #212121;
 
 .container{
     position: relative;
-    width: 60%;
+    width: 40%;
     /*text-align: left;*/
     padding-right: 0px;
     padding-left: 0px;
@@ -62,15 +62,15 @@ body{background-color: #212121;
     box-sizing: border-box;
 }
 
-/*.graph{
+.chart{
     position: relative;
-    width: 60%;
-    text-align: justify;
+    width: 100%;
+    text-align: center;
     padding-right: 0px;
     padding-left: 0px;
     margin: .5em auto;
     box-sizing: border-box;
-} */
+} 
 
 #header-image{
     width: 100%;
@@ -83,10 +83,6 @@ body{background-color: #212121;
 #main{
     width: 100%;
     text-align: center;
-}
-
-#chart{
-    width: 100%;
 }
 
 h1 {
@@ -136,6 +132,7 @@ img{
 /*.enter {
   fill: #EDCA3A;
   ["#fe0000", "#f7931e", "#f8a395", "#e41a72", "#fcd107", "#f365e7", "#a0581c", "#a90aa1", "#e6d3a5"]
+  ["#ec4b18", "#f82387", "#fda547", "#f0a4b1", "#a73358", "#a75410", "#702cb4", "#dc8bfe", "#ababab"]
 }*/
 
 .selected {
@@ -170,6 +167,23 @@ div.tooltip {
 }
 
 div.tooltip1 {
+  color: red;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  width: 300px;
+  height: auto;
+  padding: 5px;
+  font-family: futura-pt, sans-serif;
+  font-style: normal;
+  font-size: 12px; ;
+  /*background: white;*/
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+div.tooltip1a {
   color: red;
   position: relative;
   text-align: center;
