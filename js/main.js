@@ -416,7 +416,14 @@ function getpos(event) {
           })
           .on("mouseout", function(d){ tooltip1.style("display", "none");})
 
+      bars.append('text')
+                    .text((d)  => {
+                      return d.Name;
+                    })
+                    .attr('transform', (d) => { return 'translate(' + (100) + ', ' + (300) + ')rotate(-90)'; }); // concatinating strings
+
 });
+
 
 /*  .attr("class", "axis axis--x")
   .attr("transform", "translate(0," + height1 + ")")
@@ -432,6 +439,57 @@ function getpos(event) {
 getpos(); //run wherever you call
 tooltip.style.left = x;
 tooltip.style.top = y; */
+
+// Define the data as a two-dimensional array of numbers. If you had other
+// data to associate with each number, replace each number with an object, e.g.,
+// `{key: "value"}`.
+var data4 = [
+  [ 49.5, 50.5],
+  [ 29.7, 70.3],
+  [ 8.8, 91.2],
+  [ 8.3, 91.7]
+];
+
+// Define the margin, radius, and color scale. The color scale will be
+// assigned by index, but if you define your data using objects, you could pass
+// in a named field from the data object instead, such as `d.name`. Colors
+// are assigned lazily, so if you want deterministic behavior, define a domain
+// for the color scale.
+var m = 10,
+    r = 25,
+    //z = d3.scale.category20c();
+    z = d3.scaleOrdinal(d3.schemeCategory20);
+
+// Insert an svg element (with margin) for each row in our dataset. A child g
+// element translates the origin to the pie center.
+var svg4 = d3.select("#chart4").selectAll("svg")
+    .data(data4)
+  .enter().append("svg")
+    .attr("width", (r + m) * 2)
+    .attr("height", (r + m) * 2)
+  .append("g")
+    .attr("transform", "translate(" + (r + m) + "," + (r + m) + ")scale(-1, 1)");
+
+// The data for each svg element is a row of numbers (an array). We pass that to
+// d3.layout.pie to compute the angles for each arc. These start and end angles
+// are passed to d3.svg.arc to draw arcs! Note that the arc radius is specified
+// on the arc, not the layout.
+let pies = svg4.selectAll("path")
+    .data(d3.pie())
+  .enter().append("path")
+    .attr("d", d3.arc()
+        .innerRadius(0)
+        .outerRadius(r))
+    .style("fill", function(d, i) { return z(i); })
+    .on("mouseover")
+              tooltip1
+                .style("left", 100)
+                //.style("top", height1 + (+d3.select(this).attr("y")- 500))
+                .style("top", 2000)
+                .style("opacity", .9)
+                .style("display", "inline-block")
+                .html("hello");
+
 
 // CHART 3 EQUITY *****************************************************************************
 // Set the dimensions of the canvas / graph

@@ -52,15 +52,14 @@ body{background-color: #212121;
 
 }
 
-.container{
+/*.container{
     position: relative;
     width: 40%;
-    /*text-align: left;*/
     padding-right: 0px;
     padding-left: 0px;
     margin: .5em auto;
     box-sizing: border-box;
-}
+}*/
 
 .chart{
     position: relative;
