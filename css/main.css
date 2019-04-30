@@ -69,7 +69,12 @@ body{background-color: #212121;
     padding-left: 0px;
     margin: .5em auto;
     box-sizing: border-box;
-} 
+}
+
+.img{
+    margin: 1em auto;
+
+}
 
 #header-image{
     width: 100%;
@@ -83,6 +88,7 @@ body{background-color: #212121;
     width: 100%;
     text-align: center;
 }
+
 
 h1 {
     font-family: poynter-oldstyle-display, serif;
@@ -100,12 +106,21 @@ h2 {
 
 h3 {
     font-size:1.5em;
-    color: white;
+    background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h4 {
+    font-family: poynter-oldstyle-display, serif;
+    background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 p {
-    font-family: 'future-pt', sans-serif;
-    font-size: 1.0em;
+    font-family: 'helvetica-neue', sans-serif;
+    font-weight: 300;
     color: white;
 }
 
@@ -124,9 +139,7 @@ img{
     float: left;
 }
 
-.container-0{
-    margin: 60px;
-}
+
 
 /*.enter {
   fill: #EDCA3A;
@@ -146,6 +159,18 @@ img{
 .mainbar{
     fill: #FFFFFF;
     opacity: 0.5;
+}
+
+.jumbotron{
+    background-color: white;
+}
+
+.display-4{
+    color: black;
+}
+
+.lead{
+    color: grey;
 }
 
 div.tooltip {
