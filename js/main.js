@@ -2,7 +2,7 @@
 
 // Set the dimensions of the canvas / graph
 var margin = {top: 10, right: 30, bottom: 30, left: 30},
-    width = 1000 - margin.left - margin.right,
+    width = 990 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
 
 //parse the date
@@ -27,6 +27,7 @@ var svg = d3.select("#chart")
   .append("g")
     .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
+
 
 // add the tooltip area to the webpage
 var tooltip = d3.select("#chart").append("div")
@@ -114,6 +115,7 @@ d3.csv(file, function(error, data) {
 
     binContainerEnter.merge(binContainer)
         .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
+
   });//d3.csv
 //};//update
 
@@ -138,8 +140,7 @@ function tooltipOn(d) {
   tooltip.transition()
        .duration(200)
        .style("opacity", .9);
-  tooltip.html("<b>" + d.name + "</b>" + "</br>" + d.value + "</br>" + d.institution + "</br>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "Details" + 
-    "</a>")
+  tooltip.html("<b>" + d.name + "</b>" + "</br>" + d.value + "</br>" + d.institution + "</br>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "</a>")
   //tooltip.html("Hellohellohello")
     .style("left", gX/200 + "px")
     .style("top", gY/3 + "px")
@@ -159,6 +160,7 @@ function tooltipOff(d) {
 
 // add x axis
 svg.append("g")
+  .style("font", "12px futura-pt")
   .attr("class", "axis axis--x")
   .attr("transform", "translate(0," + height + ")")
   .style("stroke", "white")
@@ -189,12 +191,13 @@ svg.append("g")
         .attr("dy", "0.32em")
         .text(function(d) { return d; }); 
 
+
     
 
 
 //SEXUAL MISCONDUCT CASE STUDIES********************************************************************
 var margin1 = {top: 10, right: 30, bottom: 30, left: 30},
-    width1 = 700 - margin1.left - margin1.right,
+    width1 = 1000 - margin1.left - margin1.right,
     height1 = 200 - margin1.top - margin1.bottom;
 
 //parse the date
@@ -224,7 +227,9 @@ var y2 = d3.scaleLinear()
 var svg1 = d3.select("#chart1")
   .append("svg")
     .attr("width", width1 + margin1.left + margin1.right)
-    .attr("height", height1 + margin1.top + margin1.bottom);
+    .attr("height", height1 + margin1.top + margin1.bottom)
+    //.style("background-color", 'red');
+    .style("background", "img/inder_verma.jpg");
 
 // add the tooltip area to the webpage
 var tooltip1 = d3.select("#chart1").append("div")
@@ -260,7 +265,7 @@ function getpos(event) {
     x1.domain([0, d3.max(data, function(d) { return d.startYear; })]);
     g1.append("rect")
       //.attr("class", "bar")
-      .attr("fill", "#696969")
+      .attr("fill", "#4d4d4d")
       .attr("opacity", 1.0)
       .attr("x", x1(parseDate1("01/01/1970")))
       .attr("height", 50)
@@ -312,7 +317,7 @@ function getpos(event) {
 // CHART 2*****************************************************************************
 
 var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
-    width1a = 700 - margin1a.left - margin1a.right,
+    width1a = 1000 - margin1a.left - margin1a.right,
     height1a = 200 - margin1a.top - margin1a.bottom;
 
 //parse the date
@@ -368,7 +373,7 @@ function getpos(event) {
     x1a.domain([0, d3.max(data, function(d) { return d.startYear; })]);
     g1a.append("rect")
       //.attr("class", "bar")
-      .attr("fill", "#696969")
+      .attr("fill", "#4d4d4d")
       .attr("opacity", 1.0)
       .attr("x", x1a(parseDate1a("01/01/1970")))
       .attr("height", 50)
@@ -397,7 +402,7 @@ function getpos(event) {
           .attr("height", 50)
           .attr("y", 100)
           //.attr("width", function(d){ return x1(d.end - d.start)})
-          .attr("width", function(d) {return x1a(d.endYear - d.startYear) + 3;})
+          .attr("width", function(d) {return x1a(d.endYear - d.startYear) + 1;})
           .attr("fill", function(d) {
             if (d.Name == "NA") {
               return "white";
@@ -420,9 +425,124 @@ function getpos(event) {
                     .text((d)  => {
                       return d.Name;
                     })
-                    .attr('transform', (d) => { return 'translate(' + (100) + ', ' + (300) + ')rotate(-90)'; }); // concatinating strings
+                    .attr('transform', (d) => { return 'translate(' + (100) + ', ' + (300) + ')rotate(90)'; }); // concatinating strings
 
 });
+
+//CHART 3 LAWRENCE KRAUSS
+var margin1b = {top: 10, right: 30, bottom: 30, left: 30},
+    width1b = 1000 - margin1b.left - margin1b.right,
+    height1b = 200 - margin1b.top - margin1b.bottom;
+
+//parse the date
+//var parseDate = d3.timeParse("%d-%m-%Y");
+var parseDate1b = d3.timeParse("%m/%d/%Y");
+
+var x1b = d3.scaleTime()
+        .domain([new Date(1990, 1, 1), new Date(2020, 12, 31)])
+        .rangeRound([0, width1b]);
+var x2b = d3.scaleLinear()
+    .range([0, width1b]);
+var y2b = d3.scaleLinear()
+    .domain([0, 23])
+    .range([0, height1b]);
+
+// Adds the svg canvas
+var svg1b = d3.select("#chart3")
+  .append("svg")
+    .attr("width", width1b + margin1b.left + margin1b.right)
+    .attr("height", height1b + margin1b.top + margin1b.bottom);
+
+// add the tooltip area to the webpage
+var tooltip1b = d3.select("#chart3").append("div")
+    .attr("class", "tooltip1b")
+    .style("opacity", 0);
+
+var file1b = "data/caseStudy_Krauss.csv";
+
+var g1b = svg1b.append("g")
+    .attr("transform", "translate(" + margin1b.left + "," + margin1b.top + ")");
+
+// Get the data
+d3.csv(file1b, function(error, data) {
+    data.forEach(function(d) {
+        d.startYear = parseDate1(d.Start)
+        d.endYear = parseDate1(d.End)
+        d.Name = d.Name
+        d.Incident = d.Incident
+        d.Date = d.Date
+        console.log(d.startYear)
+        console.log(d.Incident)
+        console.log(d.endYear-d.startYear+1)
+    });
+
+console.log(data.length); 
+
+function getpos(event) {
+  var e = window.event;
+  xtool = e.clientX + "px";
+  ytool = e.clientY + "px";
+}
+
+    x1b.domain([0, d3.max(data, function(d) { return d.startYear; })]);
+    g1b.append("rect")
+      //.attr("class", "bar")
+      .attr("fill", "#4d4d4d")
+      .attr("opacity", 1.0)
+      .attr("x", x1b(parseDate1b("01/01/1990")))
+      .attr("height", 50)
+      .attr("y", 100)
+      .attr("width", x1b(parseDate1b("01/01/2020")));
+    //x1.domain(d3.extent(data, function(d) { return d.End; }));
+    //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
+
+   /*g1.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height1 + ")")
+        .style("stroke", "white")
+        //.call(d3.axisBottom(x).ticks(5).tickFormat(function(d) { return parseInt(d / 1000); }).tickSizeInner([-height1]));
+*/
+    //g1.append("g1")
+    //    .attr("class", "y axis")
+    //    .call(d3.axisLeft(y));
+
+    var bars = g1b.selectAll(".bar")
+        .data(data)
+      .enter();
+
+      bars.append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d){return x1b(d.startYear)})
+          .attr("height", 50)
+          .attr("y", 100)
+          //.attr("width", function(d){ return x1(d.end - d.start)})
+          .attr("width", function(d) {return x1b(d.endYear - d.startYear) + 1;})
+          .attr("fill", function(d) {
+            if (d.Name == "NA") {
+              return "white";
+            }
+              return "red";
+            })
+          //.attr("width", function(d) { return x(d.Start); })
+          .on("mouseover", function(d){
+              tooltip1b
+                .style("left", x1b(100))
+                //.style("top", height1 + (+d3.select(this).attr("y")- 500))
+                .style("top", height1b+2000)
+                .style("opacity", .9)
+                .style("display", "inline-block")
+                .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
+          })
+          .on("mouseout", function(d){ tooltip1b.style("display", "none");})
+
+      bars.append('text')
+                    .text((d)  => {
+                      return d.Name;
+                    })
+                    .attr('transform', (d) => { return 'translate(' + (100) + ', ' + (300) + ')rotate(90)'; }); // concatinating strings
+
+});
+
 
 
 /*  .attr("class", "axis axis--x")
