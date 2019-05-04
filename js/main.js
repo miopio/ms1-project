@@ -424,7 +424,6 @@ function getpos(event) {
           .on("mouseout", function(d){ tooltip1.style("display", "none");})
 
       bars.append('text') //this is where the text code is
-              .append('text')
                     .attr("class", "text")
                     .text((d)  => {
                       if (d.Status == "1")
