@@ -249,6 +249,7 @@ d3.csv(file1, function(error, data) {
         d.Name = d.Name
         d.Incident = d.Incident
         d.Date = d.Date
+        d.Status = d.Status
         console.log(d.startYear)
         console.log(d.Incident)
         console.log(d.endYear-d.startYear+1)
@@ -357,6 +358,7 @@ d3.csv(file1a, function(error, data) {
         d.Name = d.Name
         d.Incident = d.Incident
         d.Date = d.Date
+        d.Status = d.Status
         console.log(d.startYear)
         console.log(d.Incident)
         console.log(d.endYear-d.startYear+1)
@@ -423,10 +425,22 @@ function getpos(event) {
 
       bars.append('text')
                     .text((d)  => {
-                      return d.Name;
+                      if (d.Status == "1")
+                      return d.Incident
                     })
-                    .attr('transform', (d) => { return 'translate(' + (100) + ', ' + (300) + ')rotate(90)'; }); // concatinating strings
-
+                    .attr("font-family", "futura-pt")
+                    .attr("fill", function(d){
+                      if (d.Name == "NA") {
+                        return "white";
+                      }
+                        return "red";
+                    })
+                    .attr('transform', (d) => { 
+                      if (d.Name =="NA"){
+                        return "translate(0," + 20 + ")";
+                      }
+                        return "translate(0," + 50 + ")"; 
+                      });
 });
 
 //CHART 3 LAWRENCE KRAUSS
@@ -545,350 +559,4 @@ function getpos(event) {
 
 
 
-/*  .attr("class", "axis axis--x")
-  .attr("transform", "translate(0," + height1 + ")")
-  .style("stroke", "white")
-  .call(d3.axisBottom(x1)); */
 
-/*function getpos(event) {
-  var e = window.event;
-  x = e.clientX + "px";
-  y = e.clientY + "px";
-}
-
-getpos(); //run wherever you call
-tooltip.style.left = x;
-tooltip.style.top = y; */
-
-// Define the data as a two-dimensional array of numbers. If you had other
-// data to associate with each number, replace each number with an object, e.g.,
-// `{key: "value"}`.
-var data4 = [
-  [ 49.5, 50.5],
-  [ 29.7, 70.3],
-  [ 8.8, 91.2],
-  [ 8.3, 91.7]
-];
-
-// Define the margin, radius, and color scale. The color scale will be
-// assigned by index, but if you define your data using objects, you could pass
-// in a named field from the data object instead, such as `d.name`. Colors
-// are assigned lazily, so if you want deterministic behavior, define a domain
-// for the color scale.
-var m = 10,
-    r = 25,
-    //z = d3.scale.category20c();
-    z = d3.scaleOrdinal(d3.schemeCategory20);
-
-// Insert an svg element (with margin) for each row in our dataset. A child g
-// element translates the origin to the pie center.
-var svg4 = d3.select("#chart4").selectAll("svg")
-    .data(data4)
-  .enter().append("svg")
-    .attr("width", (r + m) * 2)
-    .attr("height", (r + m) * 2)
-  .append("g")
-    .attr("transform", "translate(" + (r + m) + "," + (r + m) + ")scale(-1, 1)");
-
-// The data for each svg element is a row of numbers (an array). We pass that to
-// d3.layout.pie to compute the angles for each arc. These start and end angles
-// are passed to d3.svg.arc to draw arcs! Note that the arc radius is specified
-// on the arc, not the layout.
-let pies = svg4.selectAll("path")
-    .data(d3.pie())
-  .enter().append("path")
-    .attr("d", d3.arc()
-        .innerRadius(0)
-        .outerRadius(r))
-    .style("fill", function(d, i) { return z(i); })
-    .on("mouseover")
-              tooltip1
-                .style("left", 100)
-                //.style("top", height1 + (+d3.select(this).attr("y")- 500))
-                .style("top", 2000)
-                .style("opacity", .9)
-                .style("display", "inline-block")
-                .html("hello");
-
-
-// CHART 3 EQUITY *****************************************************************************
-// Set the dimensions of the canvas / graph
-/*var margin2 = {top: 10, right: 30, bottom: 30, left: 30},
-    width2 = 1000 - margin2.left - margin2.right,
-    height2 = 800 - margin2.top - margin2.bottom;
-
-//parse the date
-//var parseDate = d3.timeParse("%d-%m-%Y");
-var parseDate2 = d3.timeParse("%Y");
-
-// Set the ranges
-var x = d3.scaleLinear()
-    .rangeRound([0, width])
-    .domain([1980, 2018]); 
-var x3 = d3.scaleTime()
-    .rangeRound([0,width2])
-    .domain([new Date(2000, 1, 1), new Date(2018, 12, 31)])
-var y3 = d3.scaleLinear()
-    .range([height2, 0]);
-
-// Adds the svg canvas
-var svg2 = d3.select("#chart5")
-  .append("svg")
-    .attr("width", width2 + margin2.left + margin2.right)
-    .attr("height", height2 + margin2.top + margin2.bottom)
-  .append("g")
-    .attr("transform",
-              "translate(" + margin2.left + "," + margin2.top + ")");
-
-var file2 = "data/Columnbia_equity_divisions.csv"
-
-
-// Get the data
-d3.csv(file2, function(error, data) {
-    data.forEach(function(d) {
-        d.Year = parseDate(d.Year)
-        d.NYUs = d["NYU Science"]
-        d.NYUss = d["NYU Social Science"]
-        d.NYUh = d["NYU Humanities"]
-        d.Cs = d["Columbia Science"]
-        d.Css = d["Columbia Social Science"]
-        d.Ch = d["Columbia Humanities"]
-        console.log(d.Cs)
-    });
-
-    console.log(data.length);
-
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-  var xAxis2 = d3.axisBottom()
-  .scale(x3);
-
-  var yAxis2 = d3.axisLeft()
-  .scale(y3)
-
-  var line = d3.line()
-  .x(function(d){
-    return x3(d.Year)
-  })
-  .y(function(d){
-    return y3(d.percent)
-  })
-  .curve(d3.curveBasis);
-
-  var svg = d3.select("chart5").append("svg")
-  .attr("width",w + margin.left + margin.right)
-  .attr("height",h + margin.top + margin.bottom)
-  // .style("background-color","lightGreen")
-  .append("g")
-  .attr("transform","translate("+margin.left +","+margin.top+")")
-
-  color.domain(d3.keys(data[0]).filter(function(key){
-    console.log("key",key)
-    return key!=="date";
-
-  }))
-
-  var category = color.domain().map(function(name){
-    return {
-      name:name,
-      values:data.map(function(d){
-        return {
-          date:d.Year,
-          percent:+d[name]
-        };
-      })
-    };
-  });
-
-  x3.domain(d3.extent(data,function(d){
-    return d.date;
-  }));
-  y3.domain([d3.min(category,function(c){
-    return d3.min(c.values,function(v){
-      return v.percent
-    })
-  }),d3.max(category,function(c){
-    return d3.max(c.values,function(v){
-      return v.percent;
-    })
-  })])
-
-
-  var legend = svg2.selectAll("g")
-  .data(category)
-  .enter()
-  .append("g")
-  .attr("class","legend");
-
-  legend.append("rect")
-  .attr("x",width2-20)
-  .attr("y",function(d,i){
-    return i * 20;
-  })
-  .attr("width",10)
-  .attr("height",10)
-  .style("fill",function(d){
-    return color(d.name);
-  });
-
-  legend.append("text")
-  .attr("x",width2-8)
-  .attr("y",function(d,i){
-    return (i * 20) + 9;
-  })
-  .text(function(d){
-    return d.name;
-  });
-
-  svg2.append("g")
-  .attr("class","x axis")
-  .attr("transform","translate(0,"+height2+")")
-  .call(xAxis2);
-
-  svg2.append("g")
-  .attr("class","y axis")
-  .call(yAxis2)
-  .append("text")
-  .attr("transform","rotate(-90)")
-  .attr("y",6)
-  .attr("dy",".71em")
-  .style("text-anchor","end")
-  .style("fill","black")
-  .text("Temperature (ºF)");
-
-  var city = svg2.selectAll(".city")
-  .data(category)
-  .enter().append("g")
-  .attr("class","city");
-
-  city.append("path")
-  .attr("class","line")
-  .attr("d",function(d){
-    return line(d.values);
-  })
-  .style("stroke",function(d){
-    return color(d.name)
-  });
-
-  city.append("text")
-  .datum(function(d){
-
-    return{
-      name:d.name,
-      value:d.values[d.values.length -1]
-    };
-  })
-  .attr("transform",function(d){
-    return "translate(" + x3(d.value.date)+","+y3(d.value.percent)+")";
-  })
-  .attr("x",3)
-  .attr("dy",".35")
-  .text(function(d){
-    return d.name;
-  });
-
-  var mouseG = svg2.append("g") // this the black vertical line to folow mouse
-  .attr("class","mouse-over-effects");
-
-  mouseG.append("path")
-  .attr("class","mouse-line")
-  .style("stroke","black")
-  .style("stroke-width","1px")
-  .style("opacity","0");
-
-  var lines = document.getElementsByClassName("line");
-  var mousePerLine = mouseG.selectAll(".mouse-per-line")
-  .data(category)
-  .enter()
-  .append("g")
-  .attr("class","mouse-per-line");
-
-  mousePerLine.append("circle")
-  .attr("r",7)
-  .style("stroke",function(d){
-    return color(d.name);
-  })
-  .style("fill", "none")
-  .style("stroke-width", "1px")
-  .style("opacity", "0");
-
-  mousePerLine.append("text")
-  .attr("transform","translate(10,3)");
-
-  mouseG.append("rect")
-  .attr("width",width2)
-  .attr("height",height2)
-  .attr("fill","none")
-  .attr("pointer-events","all")
-  .on("mouseout",function(){
-    d3.select(".mouse-line").style("opacity","0");
-    d3.selectAll(".mouse-per-line circle").style("opacity","0");
-    d3.selectAll(".mouse-per-line text").style("opacity","0")
-  })
-  .on("mouseover",function(){
-    d3.select(".mouse-line").style("opacity","1");
-    d3.selectAll(".mouse-per-line circle").style("opacity","1");
-    d3.selectAll(".mouse-per-line text").style("opacity","1")
-
-  })
-  .on("mousemove",function(){
-
-    var mouse = d3.mouse(this);
-    console.log("Mouse:",mouse);
-    d3.select(".mouse-line")
-    .attr("d",function(){
-      var d = "M" + mouse[0] +"," + height2;
-      d+=" " +mouse[0] + "," + 0;
-      return d;
-    })
-    // .attr("d",function(){
-    //   var d = "M" + w +"," + mouse[1];
-    //   d+=" " +0 + "," + mouse[1];
-    //   return d;
-    // });
-
-    d3.selectAll(".mouse-per-line")
-    .attr("transform",function(d,i){
-      console.log(width2/(mouse[0]));
-      var xDate = x3.invert(mouse[0]),
-      bisect =d3.bisector(function(d){ return d.date;}).right;
-      idx = bisect(d.values,xDate);
-      console.log("xDate:",xDate);
-      console.log("bisect",bisect);
-      console.log("idx:",idx)
-
-      var beginning = 0,
-       end = lines[i].getTotalLength(),
-      target = null;
-
-      console.log("end",end);
-
-      while(true){
-        target = Math.floor((beginning+end)/2)
-        console.log("Target:",target);
-        pos = lines[i].getPointAtLength(target);
-        console.log("Position",pos.y);
-        console.log("What is the position here:",pos)
-        if((target ===end || target == beginning) && pos.x !==mouse[0]){
-          break;
-        }
-
-        if(pos.x > mouse[0]) end = target;
-        else if(pos.x < mouse[0]) beginning = target;
-        else break; // position found
-      }
-      d3.select(this).select("text")
-      .text(y3.invert(pos.y).toFixed(1))
-      .attr("fill",function(d){
-        return color(d.name)
-      });
-      return "translate(" +mouse[0]+","+pos.y+")";
-
-    });
-
-
-
-  });
-
-
-});//d3.csv */
