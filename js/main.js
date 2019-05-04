@@ -303,7 +303,7 @@ function getpos(event) {
         //.attr("width", function(d) { return x(d.Start); })
         .on("mouseover", function(d){
             tooltip1
-              .style("left", x1(100))
+              .style("left", x1(d.startYear))
               //.style("top", height1 + (+d3.select(this).attr("y")- 500))
               .style("top", height1+2000)
               .style("opacity", .9)
@@ -315,7 +315,7 @@ function getpos(event) {
       g1.selectAll(".caption")
 });
 
-// CHART 2*****************************************************************************
+// CHART 2 FRANCISCO AYALA*****************************************************************************
 
 var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
     width1a = 1000 - margin1a.left - margin1a.right,
@@ -414,7 +414,7 @@ function getpos(event) {
           //.attr("width", function(d) { return x(d.Start); })
           .on("mouseover", function(d){
               tooltip1
-                .style("left", x1a(100))
+                .style("left", x1a(d.startYear))
                 //.style("top", height1 + (+d3.select(this).attr("y")- 500))
                 .style("top", height1a+2000)
                 .style("opacity", .9)
@@ -423,24 +423,34 @@ function getpos(event) {
           })
           .on("mouseout", function(d){ tooltip1.style("display", "none");})
 
-      bars.append('text')
+      bars.append('text') //this is where the text code is
+              .append('text')
+                    .attr("class", "text")
                     .text((d)  => {
                       if (d.Status == "1")
                       return d.Incident
                     })
+                    .attr("x", function(d){return x1a(d.startYear)})
+                    .attr("y", function(d){
+                      if (d.Name == "NA"){
+                        return 20;
+                      }
+                      return 100;
+                    })
                     .attr("font-family", "futura-pt")
+                    .attr("width",200)
                     .attr("fill", function(d){
                       if (d.Name == "NA") {
                         return "white";
                       }
                         return "red";
                     })
-                    .attr('transform', (d) => { 
+                    /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){
-                        return "translate(0," + 20 + ")";
+                        return "translate(" + x +"," + 20 + ")";
                       }
-                        return "translate(0," + 50 + ")"; 
-                      });
+                        return "translate(" + x + "," + height1a-20 + ")"; 
+                      });*/
 });
 
 //CHART 3 LAWRENCE KRAUSS

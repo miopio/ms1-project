@@ -148,10 +148,8 @@ p {
     float: left;
 }
 
-#text{
-    color: white;
-    font-family: futura-pt, sans-serif;
-    font-size: 12px;
+.text{
+    width: 300px;
 }
 
 
