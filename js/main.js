@@ -453,7 +453,7 @@ function getpos(event) {
 
 
 
-      /*var captions = d3.select("#chart2")
+      /*var captions = d3.select("#chart2") //this creates divs but positions and colors don't work
                     .selectAll("div")
                     .style("opacity", 1)
                     .data(data)
