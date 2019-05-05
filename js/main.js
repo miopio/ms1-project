@@ -348,7 +348,8 @@ var tooltip1 = d3.select("#chart2").append("div")
 var file1a = "data/caseStudy_Ayala.csv";
 
 var g1a = svg1a.append("g")
-    .attr("transform", "translate(" + margin1a.left + "," + margin1a.top + ")");
+    .attr("transform", "translate(" + margin1a.left + "," + margin1a.top + ")")
+
 
 // Get the data
 d3.csv(file1a, function(error, data) {
@@ -381,6 +382,7 @@ function getpos(event) {
       .attr("height", 50)
       .attr("y", 100)
       .attr("width", x1a(parseDate1a("01/01/2020")));
+
     //x1.domain(d3.extent(data, function(d) { return d.End; }));
     //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
 
@@ -404,7 +406,7 @@ function getpos(event) {
           .attr("height", 50)
           .attr("y", 100)
           //.attr("width", function(d){ return x1(d.end - d.start)})
-          .attr("width", function(d) {return x1a(d.endYear - d.startYear) + 1;})
+          .attr("width", function(d) {return x1a(d.endYear - d.startYear) + 2;})
           .attr("fill", function(d) {
             if (d.Name == "NA") {
               return "white";
@@ -414,12 +416,18 @@ function getpos(event) {
           //.attr("width", function(d) { return x(d.Start); })
           .on("mouseover", function(d){
               tooltip1
-                .style("left", x1a(d.startYear))
+                .style("left", x1a(d.startYear) + 'px')
                 //.style("top", height1 + (+d3.select(this).attr("y")- 500))
-                .style("top", height1a+2000)
+                .style("top", height1a+3000)
                 .style("opacity", .9)
                 .style("display", "inline-block")
-                .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
+                .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident))
+                  .style("fill", function(d) {
+                    if (d.Name == "NA") {
+                      return "white";
+                    }
+                      return "red";
+                    });
           })
           .on("mouseout", function(d){ tooltip1.style("display", "none");})
 
@@ -437,20 +445,49 @@ function getpos(event) {
                       return 100;
                     })
                     .attr("font-family", "futura-pt")
-                    .attr("width",200)
+                    //.attr("width",200)
                     .attr("fill", function(d){
                       if (d.Name == "NA") {
                         return "white";
                       }
                         return "red";
                     })
+                    .call(wrap, 200)
+
                     /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){
                         return "translate(" + x +"," + 20 + ")";
                       }
                         return "translate(" + x + "," + height1a-20 + ")"; 
                       });*/
+                      function wrap(text, width) {
+                        text.each(function() {
+                          var text = d3.select(this),
+                              words = text.text().split(/\s+/).reverse(),
+                              word,
+                              line = [],
+                              lineNumber = 0,
+                              lineHeight = 1.1, // ems
+                              y = text.attr("y"),
+                              dy = 1,
+                              //dy = parseFloat(text.attr("dy")),
+                              tspan = text.text(null).append("tspan").attr("x", function(d){return x1a(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+                          while (word = words.pop()) {
+                            line.push(word);
+                            tspan.text(line.join(" "));
+                            if (tspan.node().getComputedTextLength() > width) {
+                              line.pop();
+                              tspan.text(line.join(" "));
+                              line = [word];
+                              tspan = text.append("tspan").attr("x", function(d){return x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                            }
+                          }
+                        });
+                      }
 });
+
+
+
 
 //CHART 3 LAWRENCE KRAUSS
 var margin1b = {top: 10, right: 30, bottom: 30, left: 30},

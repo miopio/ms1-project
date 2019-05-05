@@ -148,9 +148,6 @@ p {
     float: left;
 }
 
-.text{
-    width: 300px;
-}
 
 
 
@@ -189,7 +186,6 @@ div.tooltip {
   padding: 5px;
   font-family: futura-pt, sans-serif;
   font-style: normal;
-  font-size: 12px; ;
   background: white;
   border: 0px;
   border-radius: 8px;
