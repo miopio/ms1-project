@@ -443,11 +443,14 @@ function getpos(event) {
                 .style("display", "inline-block")
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident))
                   .style("fill", function(d) {
-                    if (d.Name == "NA") {
-                      return "white";
-                    }
-                      return "red";
-                    });
+                    if (d.Color == 0) {
+                        return "white";
+                      }
+                        if (d.Color == 1){
+                          return "red"
+                        }
+                        return "yellow"
+                      })
           })
           .on("mouseout", function(d){ tooltip1.style("display", "none");})
 
