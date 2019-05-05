@@ -164,7 +164,6 @@ p {
 
 .bar {
     /*fill: #FF5349;*/
-    opacity: 0.5;
 }
 
 .mainbar{
@@ -193,10 +192,9 @@ div.tooltip {
 }
 
 div.tooltip1 {
-  color: red;
+  color: white;
   position: relative;
-  text-align: center;
-  text-transform: uppercase;
+  text-align: left;
   width: 300px;
   height: auto;
   padding: 5px;
@@ -209,10 +207,29 @@ div.tooltip1 {
   pointer-events: none;
 }
 
-div.tooltip1a {
-  color: red;
+div.captions{
+  color: white;
   position: relative;
-  text-align: center;
+  text-align: left;
+  width: 300px;
+  height: auto;
+  padding: 5px;
+  font-family: futura-pt, sans-serif;
+  font-style: normal;
+  font-size: 12px; ;
+  margin: 5px;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+#text{
+    position:absolute;
+}
+
+div.tooltip1a {
+  position: relative;
+  text-align: left;
   text-transform: uppercase;
   width: 300px;
   height: auto;
