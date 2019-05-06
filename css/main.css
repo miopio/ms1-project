@@ -114,6 +114,7 @@ h2 {
 }
 
 h3 {
+    font-family: poynter-oldstyle-display, serif;
     font-size:1.5em;
     background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
     -webkit-background-clip: text;
