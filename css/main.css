@@ -87,7 +87,7 @@ body{background-color: #212121;
 .masthead {
   height: 100vh;
   min-height: 500px;
-  background-image: url('/img/ms1-project_cover.png');
+  /*background-image: url('/img/ms1-project_cover.png');*/
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
