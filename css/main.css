@@ -87,10 +87,25 @@ body{background-color: #212121;
 .masthead {
   height: 100vh;
   min-height: 500px;
-  background-image: url('https://source.unsplash.com/BtbjCFUvBXs/1920x1080');
+  background-image: url('/img/ms1-project_cover.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+#heading{
+    font-family: poynter-oldstyle-display, serif;
+    color: white;
+    font-size: 5em;
+    font-color: white;
+}
+
+#lead{
+    font-size: 2em;
+}
+
+#lead2{
+    font-size: 2em;
 }
 
 #chart1{
@@ -135,6 +150,12 @@ h2 {
     color: white;
     font-size:1.5em;
 }
+
+h4 {
+    font-family: futura-pt, serif;
+    color: white;
+}
+
 
 h3 {
     font-family: poynter-oldstyle-display, serif;
