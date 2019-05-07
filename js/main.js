@@ -349,7 +349,7 @@ function getpos(event) {
                 )
                 .style("left", (margin1.left+x1(d.startYear))+'px')
                 //.style("top", height1 + (+d3.select(this).attr("y")- 500))
-                .style("top", height1+2000)
+                .style("top", height1+200)
                 .style("opacity", .9)
                 .style("display", "inline-block")
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
@@ -447,7 +447,7 @@ var y2a = d3.scaleLinear()
 var svg1a = d3.select("#chart2")
   .append("svg")
     .attr("width", width1a + margin1a.left + margin1a.right + 200)
-    .attr("height", height1a + margin1a.top + margin1a.bottom+200);
+    .attr("height", height1a + margin1a.top + margin1a.bottom+300);
 
 // add the tooltip area to the webpage
 var tooltip1a = d3.select("#chart2").append("div")
@@ -471,9 +471,6 @@ d3.csv(file1a, function(error, data) {
         d.Status = d.Status
         d.Color = d.Color
         d.id = d.id
-        //console.log(d.startYear)
-        //console.log(d.Incident)
-        //console.log(d.endYear-d.startYear+1)
     });
 
 console.log(data.length); 
@@ -484,6 +481,11 @@ function getpos(event) {
   ytool = e.clientY + "px";
 }
 
+var h = window.innerHeight;
+var h1 = window.outerHeight;
+console.log(h);
+console.log(h1);
+
     x1a.domain([0, d3.max(data, function(d) { return d.startYear; })]);
     g1a.append("rect")
       //.attr("class", "bar")
@@ -491,20 +493,20 @@ function getpos(event) {
       .attr("opacity", 1.0)
       .attr("x", x1a(parseDate1a("01/01/1970")))
       .attr("height", 50)
-      .attr("y", 150)
+      .attr("y", h/3)
       .attr("width", x1a(parseDate1a("01/01/2019")));
 
     g1a.append("text")
       .text("1970")
       .attr("x", x1a(parseDate1a("01/01/1970")))
-      .attr("y", 130)
+      .attr("y", h/3 - 30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
 
     g1a.append("text")
       .text("2019")
       .attr("x", x1a(parseDate1a("01/01/2020")))
-      .attr("y", 130)
+      .attr("y", h/3 - 30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
 
@@ -534,7 +536,7 @@ function getpos(event) {
           .attr("x", function(d){return x1a(d.startYear)})
           //.attr("height", 50)
           .attr("height", 50)
-          .attr("y", 150)
+          .attr("y", h/3)
           //.attr("width", function(d){ return x1(d.end - d.start)})
           .attr("width", function(d) {return x1a(d.endYear - d.startYear) + 3;})
           .attr("fill", function(d) {
@@ -553,7 +555,6 @@ function getpos(event) {
             d3.select(this).attr("stroke", "red")
             // only have a tooltip manipulation if status == 0
             if (d.Status == 0){
-                d3.select(this).attr("opacity", 1)
               tooltip1a
                 .style("color", function(){
                     if (d.Color == 0) {
@@ -566,11 +567,22 @@ function getpos(event) {
                     return "yellow"
                     }
                   })
-                .style("left", (margin1a.left+x1a(d.startYear))+'px')
-                .style("top", height1 + (+d3.select(this).attr("y")))
+                .style("left", (x1a(d.startYear))- 400 +'px')
+                //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
+                .style("top", function(){
+                  if (d.Color == 0){
+                    return (+d3.select(this).attr("y")-400 + 'px')
+                  }
+                  if (d.Color == 1){
+                    return (+d3.select(this).attr("y")+50 + 'px')
+                  }
+                  if (d.Color == 2){
+                    return (+d3.select(this).attr("y")-400 + 'px')
+                  }
+                })
                 //.style("top", 50)
                 //.style("top", height1a + (+d3.select(this).attr("y")) + 'px')
-                .style("opacity", .9)
+                .style("opacity", 1)
                 .style("display", "inline-block")
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
@@ -610,26 +622,28 @@ function getpos(event) {
       var text_bar1a = bars.append('text') //this is where the text code is
                     .attr("class", "text")
                     .text((d)  => {
+                      if(d.Status ==1){
                       return (d.Date + d.Incident)
+                      }
                     })
                     .attr("x", function(d){return x1a(d.startYear)})
                     .attr("y", function(d){
                       if (d.Color == 0) {
-                        return 40;
+                        return h/3 - 130;
                       }
                         if (d.Color == 1){
-                          return 220
+                          return h/3 + 80
                         }
-                        return 0
+                        return h/3 - 160
                       })
-                    .attr("opacity", function(d){
+                    /*.attr("opacity", function(d){
                       if(d.Status == 1){
                         return 1
                       }
                       return 0
-                    })
+                    })*/
                     .attr("font-family", "futura-pt")
-                    .attr("font-size", "12px")
+                    .attr("font-size", "14px")
                     .attr("fill", function(d){
                         if (d.Color == 0) {
                         return "white";
@@ -639,7 +653,7 @@ function getpos(event) {
                         }
                         return "yellow"
                       })
-                    .call(wrap, 150)
+                    .call(wrap, 160)
 
                     /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){
@@ -655,7 +669,7 @@ function getpos(event) {
                               word,
                               line = [],
                               lineNumber = 0,
-                              lineHeight = 1.1, // ems
+                              lineHeight = 1.2, // ems
                               y = text.attr("y"),
                               dy = 1,
                               //dy = parseFloat(text.attr("dy")),

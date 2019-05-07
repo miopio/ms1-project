@@ -96,16 +96,19 @@ body{background-color: #212121;
 #chart1{
     height: 100vh;
     min-height: 400px;
+    text-align: center;
 }
 
 #chart2{
     height: 100vh;
     min-height: 400px;
+    text-align: center;
 }
 
 #chart3{
     height: 100vh;
     min-height: 400px;
+    text-align: center;
 }
 
 #container-0 {
@@ -221,11 +224,12 @@ div.tooltip1 {
   padding: 5px;
   font-family: futura-pt, sans-serif;
   font-style: normal;
-  font-size: 12px; ;
+  font-size: 14px; ;
   /*background: white;*/
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
+  line-height: 1.2;
 }
 
 div.captions{
@@ -256,7 +260,7 @@ div.tooltip1a {
   padding: 5px;
   font-family: futura-pt, sans-serif;
   font-style: normal;
-  font-size: 12px; ;
+  font-size: 14px; ;
   /*background: white;*/
   border: 0px;
   border-radius: 8px;
@@ -278,4 +282,7 @@ div.tooltip1b {
   border-radius: 8px;
   pointer-events: none;
 }
- 
+
+.svg{
+    text-align: center;
+ }
