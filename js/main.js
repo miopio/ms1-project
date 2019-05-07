@@ -448,7 +448,7 @@ var h = window.innerHeight;
 
 
 var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
-    width1a = w - margin1.left - margin1.right - w/8,
+    width1a = w - margin1a.left - margin1a.right - w/8,
     height1a = 240 - margin1a.top - margin1a.bottom;
 
 //parse the date
@@ -456,7 +456,7 @@ var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
 var parseDate1a = d3.timeParse("%m/%d/%Y");
 
 var x1a = d3.scaleTime()
-        .domain([new Date(1960, 1, 1), new Date(2020, 12, 31)])
+        .domain([new Date(1970, 1, 1), new Date(2020, 12, 31)])
         .rangeRound([0, width1a]);
 var x2a = d3.scaleLinear()
     .range([0, width1a]);
@@ -723,7 +723,7 @@ console.log(h1);
 // -----------------------
 
 var margin1b = {top: 10, right: 30, bottom: 30, left: 30},
-    width1b = w - margin1.left - margin1.right - w/8,
+    width1b = w - margin1b.left - margin1b.right - w/8,
     height1b = 240 - margin1b.top - margin1b.bottom;
 
 //parse the date
@@ -731,7 +731,7 @@ var margin1b = {top: 10, right: 30, bottom: 30, left: 30},
 var parseDate1b = d3.timeParse("%m/%d/%Y");
 
 var x1b = d3.scaleTime()
-        .domain([new Date(1970, 1, 1), new Date(2020, 12, 31)])
+        .domain([new Date(1990, 1, 1), new Date(2020, 12, 31)])
         .rangeRound([0, width1b]);
 var x2b = d3.scaleLinear()
     .range([0, width1b]);
