@@ -202,7 +202,7 @@ svg.append("g")
 
 var margin1 = {top: 10, right: 30, bottom: 30, left: 30},
     width1 = 1000 - margin1.left - margin1.right,
-    height1 = 200 - margin1.top - margin1.bottom;
+    height1 = 240 - margin1.top - margin1.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
@@ -276,7 +276,7 @@ function getpos(event) {
       .attr("opacity", 1.0)
       .attr("x", x1(parseDate1("01/01/1970")))
       .attr("height", 50)
-      .attr("y", 100)
+      .attr("y", 150)
       .attr("width", x1(parseDate1("01/01/2019")));
     //x1.domain(d3.extent(data, function(d) { return d.End; }));
     //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
@@ -315,7 +315,7 @@ function getpos(event) {
           .attr("class", "bar")
           .attr("x", function(d){return x1(d.startYear)})
           .attr("height", 50)
-          .attr("y", 100)
+          .attr("y", 150)
           //.attr("width", function(d){ return x1(d.end - d.start)})
           .attr("width", function(d) {return x1(d.endYear - d.startYear) + 3;})
           .attr("fill", function(d) {
@@ -331,6 +331,7 @@ function getpos(event) {
 
           // adds the mouseover function
           .on("mouseover", function(d){
+             d3.select(this).attr("stroke", "orange")
             // only have a tooltip manipulation if status == 0
             if (d.Status == 0){
               tooltip1
@@ -354,9 +355,11 @@ function getpos(event) {
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
-        .on("mouseout", function(d){ tooltip1.style("display", "none");})
+        .on("mouseout", function(d){ 
+          d3.select(this).attr("stroke", "none")
+          tooltip1.style("display", "none");})
 
-        bars.append('text') //this is where the text code is
+        var text_bar = bars.append('text') //this is where the text code is
                     .attr("class", "text")
                     .text((d)  => {
                       if (d.Status == "1")
@@ -365,10 +368,10 @@ function getpos(event) {
                     .attr("x", function(d){return x1(d.startYear)})
                     .attr("y", function(d){
                       if (d.Color == 0) {
-                        return 20;
+                        return 40;
                       }
                         if (d.Color == 1){
-                          return 160
+                          return 220
                         }
                         return 0
                       })
@@ -425,14 +428,14 @@ function getpos(event) {
 
 var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
     width1a = 1000 - margin1a.left - margin1a.right,
-    height1a = 200 - margin1a.top - margin1a.bottom;
+    height1a = 240 - margin1a.top - margin1a.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
 var parseDate1a = d3.timeParse("%m/%d/%Y");
 
 var x1a = d3.scaleTime()
-        .domain([new Date(1970, 1, 1), new Date(2020, 12, 31)])
+        .domain([new Date(1960, 1, 1), new Date(2020, 12, 31)])
         .rangeRound([0, width1a]);
 var x2a = d3.scaleLinear()
     .range([0, width1a]);
@@ -488,12 +491,12 @@ function getpos(event) {
       .attr("opacity", 1.0)
       .attr("x", x1a(parseDate1a("01/01/1970")))
       .attr("height", 50)
-      .attr("y", 100)
+      .attr("y", 150)
       .attr("width", x1a(parseDate1a("01/01/2019")));
 
     g1a.append("text")
       .text("1970")
-      .attr("x", x1a(parseDate1a("01/01/1970")-50))
+      .attr("x", x1a(parseDate1a("01/01/1970")))
       .attr("y", 130)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
@@ -529,8 +532,9 @@ function getpos(event) {
       bars.append("rect")
           .attr("class", "bar")
           .attr("x", function(d){return x1a(d.startYear)})
+          //.attr("height", 50)
           .attr("height", 50)
-          .attr("y", 100)
+          .attr("y", 150)
           //.attr("width", function(d){ return x1(d.end - d.start)})
           .attr("width", function(d) {return x1a(d.endYear - d.startYear) + 3;})
           .attr("fill", function(d) {
@@ -546,9 +550,9 @@ function getpos(event) {
 
           // adds the mouseover function
           .on("mouseover", function(d){
+            d3.select(this).attr("stroke", "red")
             // only have a tooltip manipulation if status == 0
             if (d.Status == 0){
-              text_bar1a
                 d3.select(this).attr("opacity", 1)
               tooltip1a
                 .style("color", function(){
@@ -571,7 +575,9 @@ function getpos(event) {
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
-        .on("mouseout", function(d){ tooltip1a.style("display", "none");})
+        .on("mouseout", function(d){ 
+          d3.select(this).attr("stroke", "none")
+          tooltip1a.style("display", "none");})
 
       /*var captions = d3.select("#chart2") //this creates divs but positions and colors don't work
                     .selectAll("div")
@@ -609,10 +615,10 @@ function getpos(event) {
                     .attr("x", function(d){return x1a(d.startYear)})
                     .attr("y", function(d){
                       if (d.Color == 0) {
-                        return 20;
+                        return 40;
                       }
                         if (d.Color == 1){
-                          return 160
+                          return 220
                         }
                         return 0
                       })
@@ -676,14 +682,14 @@ function getpos(event) {
 
 var margin1b = {top: 10, right: 30, bottom: 30, left: 30},
     width1b = 1000 - margin1b.left - margin1b.right,
-    height1b = 200 - margin1b.top - margin1b.bottom;
+    height1b = 240 - margin1b.top - margin1b.bottom;
 
 //parse the date
 //var parseDate = d3.timeParse("%d-%m-%Y");
 var parseDate1b = d3.timeParse("%m/%d/%Y");
 
 var x1b = d3.scaleTime()
-        .domain([new Date(1960, 1, 1), new Date(2020, 12, 31)])
+        .domain([new Date(1970, 1, 1), new Date(2020, 12, 31)])
         .rangeRound([0, width1b]);
 var x2b = d3.scaleLinear()
     .range([0, width1b]);
@@ -735,7 +741,7 @@ function getpos(event) {
       .attr("opacity", 1.0)
       .attr("x", x1b(parseDate1b("01/01/1970")))
       .attr("height", 50)
-      .attr("y", 100)
+      .attr("y", 150)
       .attr("width", x1b(parseDate1b("01/01/2019")));
 
     g1b.append("text")
@@ -771,14 +777,15 @@ function getpos(event) {
       bars.append("rect")
           .attr("class", "bar")
           .attr("x", function(d){return x1b(d.startYear)})
-          .attr("y", 100)
+          .attr("y", 150)
           .attr("width", function(d) {return x1b(d.endYear - d.startYear) + 3;})
-          .attr("height", function(d){
+          .attr("height", 50)
+          /*.attr("height", function(d){
             if (d.Status == 1){
               return 200
             }
             return 50;
-          })
+          })*/
           .attr("fill", function(d) {
             if (d.Color == 0) {
               return "white";
@@ -793,9 +800,8 @@ function getpos(event) {
           // adds the mouseover function
           .on("mouseover", function(d){
             // only have a tooltip manipulation if status == 0
+            d3.select(this).attr("stroke", "orange")
             if (d.Status == 0){
-              text_bar
-                .attr("opacity", 1)
               tooltip1b
                 .style("color", function(){
                     if (d.Color == 0) {
@@ -817,7 +823,10 @@ function getpos(event) {
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
-        .on("mouseout", function(d){ tooltip1b.style("display", "none");})
+        .on("mouseout", function(d){ 
+          tooltip1b.style("display", "none")
+          d3.select(this).attr("stroke", "none")
+          ;})
 
       /*var captions = d3.select("#chart2") //this creates divs but positions and colors don't work
                     .selectAll("div")
@@ -847,7 +856,7 @@ function getpos(event) {
                     })
                     //.call(wrap, 200)*/
 
-    var text_bar = bars.append('text') //this is where the text code is
+    var text_bar2 = bars.append('text') //this is where the text code is
                     .attr("class", "text")
                     .text((d)  => {
                         return (d.Date + d.Incident)
@@ -855,10 +864,10 @@ function getpos(event) {
                     .attr("x", function(d){return x1b(d.startYear)})
                     .attr("y", function(d){
                       if (d.Color == 0) {
-                        return 20;
+                        return 40;
                       }
                         if (d.Color == 1){
-                          return 160
+                          return 220
                         }
                         return 0
                       })
@@ -913,7 +922,7 @@ function getpos(event) {
                           }
                         });
                       }
-                      console.log(text_bar)
+                      
 });
 
 

@@ -93,6 +93,20 @@ body{background-color: #212121;
   background-repeat: no-repeat;
 }
 
+#chart1{
+    height: 100vh;
+    min-height: 400px;
+}
+
+#chart2{
+    height: 100vh;
+    min-height: 400px;
+}
+
+#chart3{
+    height: 100vh;
+    min-height: 400px;
+}
 
 #container-0 {
     padding-top: 5vh;
@@ -102,16 +116,21 @@ body{background-color: #212121;
    /* background-color: white;*/
 }
 
+#verma-img::before{
+    opacity: 0.5;
+}
 h1 {
     font-family: poynter-oldstyle-display, serif;
-    font-weight: 700;
-    color: white;
-    font-size: 3em;
+    background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size:3em;
 }
 
 h2 {
-    font-family: poynter-oldstyle-display, serif;
+    font-family: futura-pt, serif;
     color: white;
+    font-size:1.5em;
 }
 
 h3 {
@@ -232,7 +251,6 @@ div.captions{
 div.tooltip1a {
   position: relative;
   text-align: left;
-  text-transform: uppercase;
   width: 300px;
   height: auto;
   padding: 5px;
@@ -248,8 +266,7 @@ div.tooltip1a {
 div.tooltip1b {
   color: red;
   position: relative;
-  text-align: center;
-  text-transform: uppercase;
+  text-align: left;
   width: 300px;
   height: auto;
   padding: 5px;
