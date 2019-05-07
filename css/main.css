@@ -93,6 +93,7 @@ body{background-color: #212121;
   background-repeat: no-repeat;
 }
 
+
 #container-0 {
     padding-top: 5vh;
 }
@@ -181,7 +182,7 @@ div.tooltip {
   position: relative;
   text-align: center;
   text-transform: uppercase;
-  width: 300px;
+  width: 400px;
   height: auto;
   padding: 5px;
   font-family: futura-pt, sans-serif;
