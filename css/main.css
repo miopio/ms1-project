@@ -245,7 +245,7 @@ div.tooltip1 {
   color: white;
   position: relative;
   text-align: left;
-  width: 300px;
+  width: 250px;
   height: auto;
   padding: 5px;
   font-family: futura-pt, sans-serif;
@@ -265,7 +265,7 @@ div.tooltip1 {
 div.tooltip1a {
   position: relative;
   text-align: left;
-  width: 300px;
+  width: 250px;
   height: auto;
   padding: 5px;
   font-family: futura-pt, sans-serif;
@@ -281,7 +281,7 @@ div.tooltip1a {
 div.tooltip1b {
   position: relative;
   text-align: left;
-  width: 300px;
+  width: 250px;
   height: auto;
   padding: 5px;
   font-family: futura-pt, sans-serif;

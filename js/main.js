@@ -199,9 +199,10 @@ svg.append("g")
 // -----------------------
 // INDER VERMA CHART 2
 // -----------------------
+var w = window.innerWidth;
 
-var margin1 = {top: 10, right: 30, bottom: 30, left: 30},
-    width1 = 1000 - margin1.left - margin1.right,
+var margin1 = {top: 10, right: 30, bottom: 30, left: 50},
+    width1 = w - margin1.left - margin1.right - w/8,
     height1 = 240 - margin1.top - margin1.bottom;
 
 //parse the date
@@ -287,7 +288,7 @@ var h = window.innerHeight;
 
     g1.append("text")
       .text("2019")
-      .attr("x", x1(parseDate1("01/01/2020")))
+      .attr("x", x1(parseDate1("01/01/2018")))
       .attr("y", h/3 - 30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
@@ -349,7 +350,7 @@ var h = window.innerHeight;
                     }
                   }
                 )
-                .style("left", (x1a(d.startYear))- 400 +'px')
+                .style("left", (x1a(d.startYear)) - w/3 -50 +'px')
                 //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
                 .style("top", function(){
                   if (d.Color == 0){
@@ -447,7 +448,7 @@ var h = window.innerHeight;
 
 
 var margin1a = {top: 10, right: 30, bottom: 30, left: 30},
-    width1a = 1000 - margin1a.left - margin1a.right,
+    width1a = w - margin1.left - margin1.right - w/8,
     height1a = 240 - margin1a.top - margin1a.bottom;
 
 //parse the date
@@ -519,7 +520,7 @@ console.log(h1);
 
     g1a.append("text")
       .text("2019")
-      .attr("x", x1a(parseDate1a("01/01/2020")))
+      .attr("x", x1a(parseDate1a("01/01/2018")))
       .attr("y", h/3 - 30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
@@ -587,7 +588,7 @@ console.log(h1);
                     return "yellow"
                     }
                   })
-                .style("left", (x1a(d.startYear))- 400 +'px')
+                .style("left", (x1a(d.startYear)) - w/3 -50 +'px')
                 //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
                 .style("top", function(){
                   if (d.Color == 0){
@@ -722,7 +723,7 @@ console.log(h1);
 // -----------------------
 
 var margin1b = {top: 10, right: 30, bottom: 30, left: 30},
-    width1b = 1000 - margin1b.left - margin1b.right,
+    width1b = w - margin1.left - margin1.right - w/8,
     height1b = 240 - margin1b.top - margin1b.bottom;
 
 //parse the date
@@ -791,7 +792,7 @@ var h = window.innerHeight;
 
     g1b.append("text")
       .text("2019")
-      .attr("x", x1b(parseDate1b("01/01/2020")))
+      .attr("x", x1b(parseDate1b("01/01/2018")))
       .attr("y", h/3-30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
@@ -859,7 +860,7 @@ var h = window.innerHeight;
                     }
                   }
                 )
-                .style("left", (x1a(d.startYear))- 400 +'px')
+                .style("left", (x1a(d.startYear)) - w/3 -50 +'px')
                 //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
                 .style("top", function(){
                   if (d.Color == 0){
