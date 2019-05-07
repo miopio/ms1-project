@@ -232,22 +232,6 @@ div.tooltip1 {
   line-height: 1.2;
 }
 
-div.captions{
-  color: white;
-  position: relative;
-  text-align: left;
-  width: 300px;
-  height: auto;
-  padding: 5px;
-  font-family: futura-pt, sans-serif;
-  font-style: normal;
-  font-size: 12px; ;
-  margin: 5px;
-  border: 0px;
-  border-radius: 8px;
-  pointer-events: none;
-}
-
 #text{
     position:absolute;
 }
@@ -265,10 +249,10 @@ div.tooltip1a {
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
+  line-height: 1.2;
 }
 
 div.tooltip1b {
-  color: red;
   position: relative;
   text-align: left;
   width: 300px;
@@ -276,11 +260,12 @@ div.tooltip1b {
   padding: 5px;
   font-family: futura-pt, sans-serif;
   font-style: normal;
-  font-size: 12px; ;
+  font-size: 14px; ;
   /*background: white;*/
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
+  line-height: 1.2;
 }
 
 .svg{

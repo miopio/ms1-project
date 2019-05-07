@@ -231,7 +231,7 @@ var y2 = d3.scaleLinear()
 var svg1 = d3.select("#chart1")
   .append("svg")
     .attr("width", width1 + margin1.left + margin1.right+200)
-    .attr("height", height1 + margin1.top + margin1.bottom+200)
+    .attr("height", height1 + margin1.top + margin1.bottom+300)
     //.style("background-color", 'red');
     .style("background", "img/inder_verma.jpg");
 
@@ -263,11 +263,8 @@ d3.csv(file1, function(error, data) {
 
 console.log(data.length); 
 
-function getpos(event) {
-  var e = window.event;
-  xtool = e.clientX + "px";
-  ytool = e.clientY + "px";
-}
+
+var h = window.innerHeight;
 
     x1.domain([0, d3.max(data, function(d) { return d.startYear; })]);
     g1.append("rect")
@@ -276,7 +273,7 @@ function getpos(event) {
       .attr("opacity", 1.0)
       .attr("x", x1(parseDate1("01/01/1970")))
       .attr("height", 50)
-      .attr("y", 150)
+      .attr("y", h/3)
       .attr("width", x1(parseDate1("01/01/2019")));
     //x1.domain(d3.extent(data, function(d) { return d.End; }));
     //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
@@ -284,18 +281,16 @@ function getpos(event) {
     g1.append("text")
       .text("1970")
       .attr("x", x1(parseDate1("01/01/1970")-50))
-      .attr("y", 130)
+      .attr("y", h/3 - 30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
 
     g1.append("text")
       .text("2019")
       .attr("x", x1(parseDate1("01/01/2020")))
-      .attr("y", 130)
+      .attr("y", h/3 - 30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
-
-    g1.append("line")
 
    /*g1.append("g")
         .attr("class", "x axis")
@@ -311,11 +306,12 @@ function getpos(event) {
         .data(data)
       .enter();
 
+//colored lines on timeline
       bars.append("rect")
           .attr("class", "bar")
           .attr("x", function(d){return x1(d.startYear)})
           .attr("height", 50)
-          .attr("y", 150)
+          .attr("y", h/3)
           //.attr("width", function(d){ return x1(d.end - d.start)})
           .attr("width", function(d) {return x1(d.endYear - d.startYear) + 3;})
           .attr("fill", function(d) {
@@ -327,11 +323,17 @@ function getpos(event) {
               }
               return "yellow"
             })
+          .attr("stroke", function(d){
+                      if (d.Status == 1){
+                        return "black"
+                      }
+                      return "none"
+                    })
           //.attr("width", function(d) { return x(d.Start); })
 
           // adds the mouseover function
           .on("mouseover", function(d){
-             d3.select(this).attr("stroke", "orange")
+             d3.select(this).attr("stroke", "black")
             // only have a tooltip manipulation if status == 0
             if (d.Status == 0){
               tooltip1
@@ -347,36 +349,54 @@ function getpos(event) {
                     }
                   }
                 )
-                .style("left", (margin1.left+x1(d.startYear))+'px')
-                //.style("top", height1 + (+d3.select(this).attr("y")- 500))
+                .style("left", (x1a(d.startYear))- 400 +'px')
+                //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
+                .style("top", function(){
+                  if (d.Color == 0){
+                    return (+d3.select(this).attr("y")-550 + 'px')
+                  }
+                  if (d.Color == 1){
+                    return (+d3.select(this).attr("y") - 50 + 'px')
+                  }
+                  if (d.Color == 2){
+                    return (+d3.select(this).attr("y")-550 + 'px')
+                  }
+                })
                 .style("top", height1+200)
-                .style("opacity", .9)
+                .style("opacity", 1)
                 .style("display", "inline-block")
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
         .on("mouseout", function(d){ 
-          d3.select(this).attr("stroke", "none")
+          d3.select(this).attr("stroke", function(){
+            if (d.Status == 1){
+              return "black"
+            }
+            if (d.Status == 0){
+              return "none"
+            }
+          })
           tooltip1.style("display", "none");})
 
         var text_bar = bars.append('text') //this is where the text code is
                     .attr("class", "text")
                     .text((d)  => {
-                      if (d.Status == "1")
+                      if (d.Status == 1)
                       return (d.Date + d.Incident)
                     })
                     .attr("x", function(d){return x1(d.startYear)})
                     .attr("y", function(d){
                       if (d.Color == 0) {
-                        return 40;
+                        return h/3 - 130;
                       }
                         if (d.Color == 1){
-                          return 220
+                          return h/3 + 80
                         }
-                        return 0
+                        return h/3 - 160
                       })
                     .attr("font-family", "futura-pt")
-                    .attr("font-size", "12px")
+                    .attr("font-size", "14px")
                     //.attr("width",200)
                     .attr("fill", function(d){
                         if (d.Color == 0) {
@@ -387,7 +407,7 @@ function getpos(event) {
                         }
                         return "yellow"
                       })
-                    .call(wrap, 150)
+                    .call(wrap, 160)
 
                     /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){
@@ -403,11 +423,11 @@ function getpos(event) {
                               word,
                               line = [],
                               lineNumber = 0,
-                              lineHeight = 1.1, // ems
+                              lineHeight = 1.2, // ems
                               y = text.attr("y"),
                               dy = 1,
                               //dy = parseFloat(text.attr("dy")),
-                              tspan = text.text(null).append("tspan").attr("x", function(d){return x1a(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+                              tspan = text.text(null).append("tspan").attr("x", function(d){return x1(d.startYear)}).attr("y", y).attr("dy", dy + "em");
                           while (word = words.pop()) {
                             line.push(word);
                             tspan.text(line.join(" "));
@@ -415,7 +435,7 @@ function getpos(event) {
                               line.pop();
                               tspan.text(line.join(" "));
                               line = [word];
-                              tspan = text.append("tspan").attr("x", function(d){return x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                              tspan = text.append("tspan").attr("x", function(d){return x1(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
                             }
                           }
                         });
@@ -474,12 +494,6 @@ d3.csv(file1a, function(error, data) {
     });
 
 console.log(data.length); 
-
-function getpos(event) {
-  var e = window.event;
-  xtool = e.clientX + "px";
-  ytool = e.clientY + "px";
-}
 
 var h = window.innerHeight;
 var h1 = window.outerHeight;
@@ -548,11 +562,17 @@ console.log(h1);
               }
               return "yellow"
             })
+          .attr("stroke", function(d){
+                      if (d.Status == 1){
+                        return "black"
+                      }
+                      return "none"
+                    })
           //.attr("width", function(d) { return x(d.Start); })
 
           // adds the mouseover function
           .on("mouseover", function(d){
-            d3.select(this).attr("stroke", "red")
+            d3.select(this).attr("stroke", "black")
             // only have a tooltip manipulation if status == 0
             if (d.Status == 0){
               tooltip1a
@@ -571,13 +591,13 @@ console.log(h1);
                 //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
                 .style("top", function(){
                   if (d.Color == 0){
-                    return (+d3.select(this).attr("y")-400 + 'px')
+                    return (+d3.select(this).attr("y")-550 + 'px')
                   }
                   if (d.Color == 1){
-                    return (+d3.select(this).attr("y")+50 + 'px')
+                    return (+d3.select(this).attr("y") - 50 + 'px')
                   }
                   if (d.Color == 2){
-                    return (+d3.select(this).attr("y")-400 + 'px')
+                    return (+d3.select(this).attr("y")-550 + 'px')
                   }
                 })
                 //.style("top", 50)
@@ -588,7 +608,14 @@ console.log(h1);
             }
           })
         .on("mouseout", function(d){ 
-          d3.select(this).attr("stroke", "none")
+          d3.select(this).attr("stroke", function(){
+            if (d.Status == 1){
+              return "black"
+            }
+            if (d.Status == 0){
+              return "none"
+            }
+          })
           tooltip1a.style("display", "none");})
 
       /*var captions = d3.select("#chart2") //this creates divs but positions and colors don't work
@@ -715,7 +742,7 @@ var y2b = d3.scaleLinear()
 var svg1b = d3.select("#chart3")
   .append("svg")
     .attr("width", width1b + margin1b.left + margin1b.right+200)
-    .attr("height", height1b + margin1b.top + margin1b.bottom+200);
+    .attr("height", height1b + margin1b.top + margin1b.bottom+300);
 
 // add the tooltip area to the webpage
 var tooltip1b = d3.select("#chart3").append("div")
@@ -742,11 +769,8 @@ d3.csv(file1b, function(error, data) {
 
 console.log(data.length); 
 
-function getpos(event) {
-  var e = window.event;
-  xtool = e.clientX + "px";
-  ytool = e.clientY + "px";
-}
+var h = window.innerHeight;
+
 
     x1b.domain([0, d3.max(data, function(d) { return d.startYear; })]);
     g1b.append("rect")
@@ -755,20 +779,20 @@ function getpos(event) {
       .attr("opacity", 1.0)
       .attr("x", x1b(parseDate1b("01/01/1970")))
       .attr("height", 50)
-      .attr("y", 150)
+      .attr("y", h/3)
       .attr("width", x1b(parseDate1b("01/01/2019")));
 
     g1b.append("text")
       .text("1970")
       .attr("x", x1b(parseDate1b("01/01/1970")))
-      .attr("y", 130)
+      .attr("y", h/3-30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
 
     g1b.append("text")
       .text("2019")
       .attr("x", x1b(parseDate1b("01/01/2020")))
-      .attr("y", 130)
+      .attr("y", h/3-30)
       .attr("fill", "white")
       .attr("font-family", "futura-pt");
     //x1.domain(d3.extent(data, function(d) { return d.End; }));
@@ -791,7 +815,7 @@ function getpos(event) {
       bars.append("rect")
           .attr("class", "bar")
           .attr("x", function(d){return x1b(d.startYear)})
-          .attr("y", 150)
+          .attr("y", h/3)
           .attr("width", function(d) {return x1b(d.endYear - d.startYear) + 3;})
           .attr("height", 50)
           /*.attr("height", function(d){
@@ -809,12 +833,18 @@ function getpos(event) {
               }
               return "yellow"
             })
+          .attr("stroke", function(d){
+                      if (d.Status == 1){
+                        return "black"
+                      }
+                      return "none"
+                    })
           //.attr("width", function(d) { return x(d.Start); })
 
           // adds the mouseover function
           .on("mouseover", function(d){
             // only have a tooltip manipulation if status == 0
-            d3.select(this).attr("stroke", "orange")
+            d3.select(this).attr("stroke", "black")
             if (d.Status == 0){
               tooltip1b
                 .style("color", function(){
@@ -829,18 +859,35 @@ function getpos(event) {
                     }
                   }
                 )
-                .style("left", (margin1b.left+x1b(d.startYear))+'px')
-                //.style("top", height1 + (+d3.select(this).attr("y")- 500))
-                .style("top", height1b+2000)
-                .style("opacity", .9)
+                .style("left", (x1a(d.startYear))- 400 +'px')
+                //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
+                .style("top", function(){
+                  if (d.Color == 0){
+                    return (+d3.select(this).attr("y")-550 + 'px')
+                  }
+                  if (d.Color == 1){
+                    return (+d3.select(this).attr("y") - 50 + 'px')
+                  }
+                  if (d.Color == 2){
+                    return (+d3.select(this).attr("y")-550 + 'px')
+                  }
+                })
+                .style("opacity", 1)
                 .style("display", "inline-block")
                 .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
         .on("mouseout", function(d){ 
+          d3.select(this).attr("stroke", function(){
+            if (d.Status == 1){
+              return "black"
+            }
+            if (d.Status == 0){
+              return "none"
+            }
+          })
           tooltip1b.style("display", "none")
-          d3.select(this).attr("stroke", "none")
-          ;})
+        ;})
 
       /*var captions = d3.select("#chart2") //this creates divs but positions and colors don't work
                     .selectAll("div")
@@ -873,26 +920,22 @@ function getpos(event) {
     var text_bar2 = bars.append('text') //this is where the text code is
                     .attr("class", "text")
                     .text((d)  => {
-                        return (d.Date + d.Incident)
-                      })
-                    .attr("x", function(d){return x1b(d.startYear)})
+                      if(d.Status ==1){
+                      return (d.Date + d.Incident)
+                      }
+                    })
+                    .attr("x", function(d){return x1a(d.startYear)})
                     .attr("y", function(d){
                       if (d.Color == 0) {
-                        return 40;
+                        return h/3 - 130;
                       }
                         if (d.Color == 1){
-                          return 220
+                          return h/3 + 80
                         }
-                        return 0
+                        return h/3 - 160
                       })
-                    .attr("opacity", function(d){
-                      if(d.Status == 1){
-                        return 1
-                      }
-                      return 0
-                    })
                     .attr("font-family", "futura-pt")
-                    .attr("font-size", "12px")
+                    .attr("font-size", "14px")
                     //.attr("width",200)
                     .attr("fill", function(d){
                         if (d.Color == 0) {
@@ -903,7 +946,7 @@ function getpos(event) {
                         }
                         return "yellow"
                       })
-                    .call(wrap, 150)
+                    .call(wrap, 160)
 
                     /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){
@@ -919,7 +962,7 @@ function getpos(event) {
                               word,
                               line = [],
                               lineNumber = 0,
-                              lineHeight = 1.1, // ems
+                              lineHeight = 1.2, // ems
                               y = text.attr("y"),
                               dy = 1,
                               //dy = parseFloat(text.attr("dy")),
