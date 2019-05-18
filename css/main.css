@@ -70,6 +70,10 @@ body{background-color: #212121;
     margin: .5em auto;
     box-sizing: border-box;
 }*/
+#scrolly {
+    position: relative;
+}
+
 
 #header-image{
     width: 100%;
@@ -131,17 +135,23 @@ body{background-color: #212121;
 }
 
 #container-1{
-   /* background-color: white;*/
+   height: 100vh;
 }
+
+button{
+    float:left;
+}
+
 
 #verma-img::before{
     opacity: 0.5;
 }
 h1 {
     font-family: poynter-oldstyle-display, serif;
-    background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
+    color:white;
+    /*background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;*/
     font-size:3em;
 }
 
