@@ -140,6 +140,9 @@ body{background-color: #212121;
 
 button{
     float:left;
+    font-family: futura-pt, serif;
+    color:black;
+    border-radius: 5px;
 }
 
 

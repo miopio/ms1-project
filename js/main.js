@@ -280,7 +280,7 @@ d3.csv(file, function(error, data0) {
 
     // Compute the histogram
     //var bins = histogram(eval("data"+dataIndex));
-    var bins = histogram(eval("data"+dataIndex))
+    var bins = histogram(eval("data"+dataIndex));
     //var bins = histogram(data0).filter(d => d.length>0)
 
  //g container for each bin
@@ -334,12 +334,13 @@ d3.csv(file, function(error, data0) {
     //binContainerEnter.exit().remove();
 
   //button to swap over datasets
-    d3.select("#chart").append("button")
-        .text("change data")
+    d3.select("#legend").append("button")
+        .text("No Action")
+        .style("background-color", "#ffff00")
         .on("click",function(){
             //select new data
             if (dataIndex==0) {
-                dataIndex=1
+                dataIndex=2
                 console.log(eval("data"+dataIndex).length);  
             }
                 else{
@@ -365,7 +366,6 @@ d3.csv(file, function(error, data0) {
                 }
         }))
 
-
       //EXIT old elements not present in data
     dots.exit()
         .attr("class", "exit")
@@ -386,15 +386,16 @@ d3.csv(file, function(error, data0) {
         .attr("r", 0)
         .style("fill", function(d){ return d.color; })
       .merge(dots)
+        .style("fill", function(d){ return d.color; })
         .on("mouseover", tooltipOn)
         .on("mouseout", tooltipOff)
         .transition()
           .duration(500)
           .attr("r", function(d) {
           return (d.length==0) ? 0 : d.radius; })
+  });
 
-  });//d3.csv
-});
+}); //d3.csv
 //};//update
 
 function tooltipOn(d) {
