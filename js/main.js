@@ -817,6 +817,7 @@ function tooltipOn(d) {
   d3.select(this)
     .classed("selected", true)
     .style("opacity", .5)
+    .style("cursor", "pointer")
   tooltip.transition()
        .duration(200)
        .style("opacity", .9);
