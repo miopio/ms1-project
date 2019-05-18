@@ -1,190 +1,3 @@
-// -----------------------------------
-// SEXUAL MISCONDUCT DOTPLOT HISTOGRAM
-// -----------------------------------
-
-// Set the dimensions of the canvas / graph
-/*var margin = {top: 10, right: 30, bottom: 30, left: 30},
-    width = 990 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
-
-//parse the date
-var parseDate = d3.timeParse("%Y");
-
-// Set the ranges of x and y
-var x = d3.scaleTime()
-    .rangeRound([0,width])
-    .domain([new Date(1980, 1, 1), new Date(2018, 12, 31)])
-var y = d3.scaleLinear()
-    .range([height, 0]);
-
-// Adds the svg canvas
-var svg = d3.select("#chart")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-              "translate(" + margin.left + "," + margin.top + ")");
-
-
-// add the tooltip area to the webpage
-var tooltip = d3.select("#chart").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
-//update the graph
-//function update(){
-
-//var t = d3.transition()
-//      .duration(1000);
-
-var file = "data/sexualMisconduct_science.csv"
-
-// Get the data
-d3.csv(file, function(error, data) {
-    data.forEach(function(d) {
-        d.Year = parseDate(d.Year)
-        d.Name = d.Name
-        d.Outcome = d.Outcome
-        d.Color = d.Color
-    });
-
-    console.log(data.length);
-    // Scale the range of the data
-    //x.domain(d3.extent(data, function(d) { return d.Year; }));
-    y.domain([0, data.length]);
-
-
-    // Set up the binning parameters for the histogram
-    var nbins = data.length;
-
-    var histogram = d3.histogram()
-      .domain(x.domain())
-      .thresholds(x.ticks(nbins))
-      .value(function(d) { return d.Year;} )
-
-    // Compute the histogram
-    //var bins = histogram(data);
-    const bins = histogram(data).filter(d => d.length>0)
-
- //g container for each bin
-    let binContainer = svg.selectAll(".gBin")
-      .data(bins);
-
-    binContainer.exit().remove()
-
-    let binContainerEnter = binContainer.enter()
-      .append("g")
-        .attr("class", "gBin")
-        .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
-
-    //need to populate the bin containers with data the first time
-    binContainerEnter.selectAll("circle")
-        .data(d => d.map((p, i) => {
-          return {idx: i,
-                  name: p.Name,
-                  value: p.Outcome,
-                  institution: p["Institution and/or Professional Society"],
-                  discipline: p["Discipline or Domain"],
-                  color: p.Color,
-                  link: p["Link(s)"],
-                  //radius: (x(d.x1)-x(d.x0))/2
-                  radius: (x(d.x1)-x(d.x0))*1.5
-                }
-        }))
-      .enter()
-      .append("circle")
-        .attr("class", "enter")
-        .attr("cx", 0) //g element already at correct x pos
-        .attr("cy", function(d) {
-            return - d.idx * 2 * d.radius - d.radius; })
-        .attr("r", 0)
-        .style("fill", function(d){ return d.color; })
-        //.on("mouseover", function(d, i){console.log(value[i])})
-        .on("mouseover", tooltipOn)
-        //.on("click", tooltipOff)
-        .on("mouseout", tooltipOff)
-        .on("click", function(d){
-          window.open(d.link)
-        })
-        .transition()
-          .duration(500)
-          .attr("r", function(d) {
-          return (d.length==0) ? 0 : d.radius; })
-
-    binContainerEnter.merge(binContainer)
-        .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
-
-  });//d3.csv
-//};//update
-
-function tooltipOn(d) {
-  //x position of parent g element
-  let gParent = d3.select(this.parentElement)
-  let translateValue = gParent.attr("transform")
-
-  let gX = translateValue.split(",")[0].split("(")[1] * 50
-  //let gX = translateValue.split(",")[0].split
-  let gY = height + (+d3.select(this).attr("cy")- 1500)
-
-  d3.select(this)
-    .classed("selected", true)
-    .style("opacity", .5)
-  tooltip.transition()
-       .duration(200)
-       .style("opacity", .9);
-  tooltip.html("<b>" + d.name + "</b>" + "</br>" + d.value + "</br>" + d.institution + "</br>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "</a>")
-  //tooltip.html("Hellohellohello")
-    .style("left", gX/200 + "px")
-    .style("top", gY/3 + "px")
-    //console.log(d.Name + "and" + d.Outcome)
-    //console.log(this.Name);
-}//tooltipOn
-
-function tooltipOff(d) {
-  d3.select(this)
-      .classed("selected", false)
-      .style("fill", function(d){ return d.color; })
-      .style("opacity", 1)
-    tooltip.transition()
-         .duration(500)
-         .style("opacity", 0);
-}//tooltipOff
-
-// add x axis
-svg.append("g")
-  .style("font", "12px futura-pt")
-  .attr("class", "axis axis--x")
-  .attr("transform", "translate(0," + height + ")")
-  .style("stroke", "white")
-  .call(d3.axisBottom(x));
-
-//Legend
-    var ordinal = d3.scaleOrdinal()
-      .domain(["no action", "resigned/retired", "demoted/reprimanded", "suspended", "fired", "lawsuit settled/monetary punishment", "banned from premesis", "death"])
-      .range(["#fe0000", "#f7931e", "#f8a395", "#e41a72", "#fcd107", "#f365e7", "#a0581c", "#a90aa1", "#e6d3a5"]);
-
-    var legend = svg.append("g")
-        .attr("font-family", "futura-pt")
-        .attr("font-size", 10)
-        .attr("fill", "#fff")
-        .attr("text-anchor", "end")
-        .attr("class", ordinal)
-      .selectAll("g")
-      .enter().append("g")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-    legend.append("circle")
-        .attr("cx", 19)
-        .attr("cy", 19);
-
-    legend.append("text")
-        .attr("x", width - 24)
-        .attr("y", 9.5)
-        .attr("dy", "0.32em")
-        .text(function(d) { return d; }); */
-
-
 // ----------------------------------------------------
 // SEXUAL MISCONDUCT DOTPLOT HISTOGRAM UPDATING VERSION
 // ----------------------------------------------------
@@ -228,7 +41,7 @@ var t = d3.transition()
 var file = "data/sexualMisconduct_science_v2.csv"
 var dataIndex = 0
 
-// Get the data
+// Get the data for sexual misconduct
 d3.csv(file, function(error, data0) {
     data0.forEach(function(d) {
         d.Year = parseDate(d.Year)
@@ -265,7 +78,6 @@ d3.csv(file, function(error, data0) {
     let data8 = data0.slice(168,184)
     //death
     let data9 = data0.slice(184, 189)
-
 
 
     // Set up the binning parameters for the histogram
@@ -327,20 +139,29 @@ d3.csv(file, function(error, data0) {
           .attr("r", function(d) {
           return (d.length==0) ? 0 : d.radius; })
 
-
     binContainerEnter.merge(binContainer)
         .attr("transform", d => `translate(${x(d.x0)}, ${height})`)
 
     //binContainerEnter.exit().remove();
 
-  //button to swap over datasets
+// ------------------
+// NO ACTION BUTTON
+// ------------------
+
     d3.select("#legend").append("button")
         .text("No Action")
-        .style("background-color", "#ffff00")
+        .style("background-color", "#212121")
+        .style("border-color", "yellow")
+        .on("mouseover", function(d){
+             d3.select(this).style("background-color", "yellow")
+        })
+        .on("mouseout", function(d){
+             d3.select(this).style("background-color", "#212121")
+        })
         .on("click",function(){
             //select new data
-            if (dataIndex==0) {
-                dataIndex=2
+            if (dataIndex !==1) {
+                dataIndex=1
                 console.log(eval("data"+dataIndex).length);  
             }
                 else{
@@ -393,7 +214,593 @@ d3.csv(file, function(error, data0) {
           .duration(500)
           .attr("r", function(d) {
           return (d.length==0) ? 0 : d.radius; })
-  });
+  }); //button no action
+
+// -----------------------
+// RESIGNED/RETIRED BUTTON
+// -----------------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Resigned/retired")
+    .style("background-color", "#212121")
+    .style("border-color", "#f7931e")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#f7931e")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 2) {
+            dataIndex=2
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button resigned/retired
+
+// --------------------------
+// DEMOTED/REPRIMANDED BUTTON
+// --------------------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Demoted/reprimanded")
+    .style("background-color", "#212121")
+    .style("border-color", "#f989a4")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#f989a4")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 3) {
+            dataIndex=3
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button demoted/reprimanded
+
+// -----------------
+// SUSPENDED BUTTON
+// -----------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Suspended")
+    .style("background-color", "#212121")
+    .style("border-color", "#fa37d9")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#fa37d9")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 4) {
+            dataIndex=4
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button suspended
+
+// -----------------
+// FIRED BUTTON
+// -----------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Fired")
+    .style("background-color", "#212121")
+    .style("border-color", "#f15924")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#f15924")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 5) {
+            dataIndex=5
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button fired
+
+// ----------------------
+// LAWSUIT SETTLED BUTTON
+// ----------------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Lawsuit settled/monetary punishment")
+    .style("background-color", "#212121")
+    .style("border-color", "#d4145a")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#d4145a")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 6) {
+            dataIndex=6
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button lawsuit settled/monetary punishment
+
+// ---------------------------
+// BANNED FROM PREMESIS BUTTON
+// ---------------------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Banned from premesis")
+    .style("background-color", "#212121")
+    .style("border-color", "#914c0f")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#914c0f")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 7) {
+            dataIndex=7
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button banned from premesis
+
+// ---------------------------
+// ARRESTED BUTTON
+// ---------------------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Arrested/imprisoned/convicted")
+    .style("background-color", "#212121")
+    .style("border-color", "#600047")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#600047")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 8) {
+            dataIndex=8
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button arrested
+
+// ---------------------------
+// DIED BUTTON
+// ---------------------------
+
+//button to swap over datasets
+d3.select("#legend").append("button")
+    .text("Committed suicide/died")
+    .style("background-color", "#212121")
+    .style("border-color", "#800000")
+    .on("mouseover", function(d){
+         d3.select(this).style("background-color", "#800000")
+    })
+    .on("mouseout", function(d){
+         d3.select(this).style("background-color", "#212121")
+    })
+    .on("click",function(){
+        //select new data
+        if (dataIndex !== 9) {
+            dataIndex=9
+            console.log(eval("data"+dataIndex).length);  
+        }
+            else{
+              dataIndex=0;
+        }
+ 
+ var bins = histogram(eval("data"+dataIndex))
+ //g container for each bin
+  let binContainer = svg.selectAll(".gBin")
+    .data(bins);
+
+  //enter/update/exit for circles, inside each container
+ let dots = binContainerEnter.selectAll("circle")
+        .data(d => d.map((p, i) => {
+          return {idx: i,
+                  name: p.Name,
+                  value: p.Outcome,
+                  institution: p["Institution and/or Professional Society"],
+                  discipline: p["Discipline or Domain"],
+                  color: p.Color,
+                  link: p["Link(s)"],
+                  radius: (x(d.x1)-x(d.x0))*1.5
+                }
+        }))
+
+      //EXIT old elements not present in data
+    dots.exit()
+        .attr("class", "exit")
+      .transition(t)
+        .attr("r", 0)
+        .remove();
+
+    //UPDATE old elements present in new data.
+    dots.attr("class", "update");
+
+    //ENTER new elements present in new data.
+    dots.enter()
+      .append("circle")
+        .attr("class", "enter")
+        .attr("cx", 0) //g element already at correct x pos
+        .attr("cy", function(d) {
+          return - d.idx * 2 * d.radius - d.radius; })
+        .attr("r", 0)
+        .style("fill", function(d){ return d.color; })
+      .merge(dots)
+        .style("fill", function(d){ return d.color; })
+        .on("mouseover", tooltipOn)
+        .on("mouseout", tooltipOff)
+        .transition()
+          .duration(500)
+          .attr("r", function(d) {
+          return (d.length==0) ? 0 : d.radius; })
+  }); //button DIED
+
+
 
 }); //d3.csv
 //};//update
