@@ -72,11 +72,14 @@ body{background-color: #212121;
 }*/
 #scrolly {
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
     padding: 1rem;
 }
 
 .step:last-child {
-    margin-bottom: 0;
+    margin-bottom: 100vh;
 }
 .step.is-active p {
     background-color: goldenrod;
@@ -86,8 +89,8 @@ body{background-color: #212121;
     text-align: center;
     padding: 1rem;
     font-size: 1rem;
-    font-family: futura-pt, serif;
-    background-color: #3b3b3b;
+    font-family: helvetica-neue, sans-serif;
+    background-color: #212121;
 }
 
 article {
@@ -177,8 +180,8 @@ button{
     font-family: futura-pt, serif;
     color:white;
     border-radius: 5px;
-    margin-right: 30%;
-    margin-top:1vh;
+    margin:0.5vh;
+
 }
 
 

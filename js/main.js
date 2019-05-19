@@ -61,10 +61,13 @@
 // SEXUAL MISCONDUCT DOTPLOT HISTOGRAM UPDATING VERSION
 // ----------------------------------------------------
 
+var w = window.innerWidth
+var h = window.innerHeight
+
 // Set the dimensions of the canvas / graph
 var margin = {top: 10, right: 30, bottom: 30, left: 30},
-    width = 990 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    width = w/1.4 - margin.left - margin.right,
+    height = h/1.19 - margin.top - margin.bottom;
 
 //parse the date
 var parseDate = d3.timeParse("%Y");
