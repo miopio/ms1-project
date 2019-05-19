@@ -1,3 +1,62 @@
+
+    // using d3 for convenience
+    var main = d3.select('body')
+    var scrolly = main.select('#scrolly');
+    var figure = scrolly.select('figure');
+    var article = scrolly.select('article');
+    var step = article.selectAll('.step');
+    // initialize the scrollama
+    var scroller = scrollama();
+    // generic window resize listener event
+    function handleResize() {
+      // 1. update height of step elements
+      var stepH = Math.floor(window.innerHeight * 0.75);
+      step.style('height', stepH + 'px');
+      var figureHeight = window.innerHeight 
+      var figureMarginTop = (window.innerHeight - figureHeight) / 2  
+      figure
+        .style('height', figureHeight + 'px')
+        .style('top', figureMarginTop + 'px');
+      // 3. tell scrollama to update new element dimensions
+      scroller.resize();
+    }
+    // scrollama event handlers
+    function handleStepEnter(response) {
+      console.log(response)
+      // response = { element, direction, index }
+      // add color to current step only
+      step.classed('is-active', function (d, i) {
+        return i === response.index;
+      })
+      // update graphic based on step
+      figure.select('p').text(response.index + 1);
+    }
+    function setupStickyfill() {
+      d3.selectAll('.sticky').each(function () {
+        Stickyfill.add(this);
+      });
+    }
+    function init() {
+      setupStickyfill();
+      // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+      handleResize();
+      // 2. setup the scroller passing options
+      //    this will also initialize trigger observations
+      // 3. bind scrollama event handlers (this can be chained like below)
+      scroller.setup({
+        step: '#scrolly article .step',
+        offset: 0.5,
+        debug: true,
+      })
+        .onStepEnter(handleStepEnter)
+      // setup resize event
+      window.addEventListener('resize', handleResize);
+    }
+    // kick things off
+    init();
+
+
+
 // ----------------------------------------------------
 // SEXUAL MISCONDUCT DOTPLOT HISTOGRAM UPDATING VERSION
 // ----------------------------------------------------
@@ -852,34 +911,6 @@ svg.append("g")
 //d3.interval(function() {
 //  update();
 //}, 3000);
-
-//Legend
-    var ordinal = d3.scaleOrdinal()
-      .domain(["no action", "resigned/retired", "demoted/reprimanded", "suspended", "fired", "lawsuit settled/monetary punishment", "banned from premesis", "death"])
-      .range(["#fe0000", "#f7931e", "#f8a395", "#e41a72", "#fcd107", "#f365e7", "#a0581c", "#a90aa1", "#e6d3a5"]);
-
-    var legend = svg.append("g")
-        .attr("font-family", "futura-pt")
-        .attr("font-size", 10)
-        .attr("fill", "#fff")
-        .attr("text-anchor", "end")
-        .attr("class", ordinal)
-      .selectAll("g")
-      .enter().append("g")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-    legend.append("circle")
-        .attr("cx", 19)
-        .attr("cy", 19);
-
-    legend.append("text")
-        .attr("x", width - 24)
-        .attr("y", 9.5)
-        .attr("dy", "0.32em")
-        .text(function(d) { return d; }); 
-
-
-    
 
 
 //SEXUAL MISCONDUCT CASE STUDIES********************************************************************

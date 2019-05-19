@@ -72,6 +72,40 @@ body{background-color: #212121;
 }*/
 #scrolly {
     position: relative;
+    padding: 1rem;
+}
+
+.step:last-child {
+    margin-bottom: 0;
+}
+.step.is-active p {
+    background-color: goldenrod;
+    color: #3b3b3b;
+}
+.step p {
+    text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: futura-pt, serif;
+    background-color: #3b3b3b;
+}
+
+article {
+    position: relative;
+    padding: 0;
+    max-width: 20rem;
+    margin: 0 auto;
+}
+
+figure {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
 
