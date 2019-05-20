@@ -4,19 +4,39 @@
 
 
 // using d3 for convenience
+//scrolly for CHART 1
 var main = d3.select('body')
 var scrolly = main.select('#scrolly');
 var figure = scrolly.select('figure');
 var article = scrolly.select('article');
 var step = article.selectAll('.step');
 
+//scrolly for INDER VERMA
 var scrolly2 = main.select('#scrolly-2');
 var figure2 = scrolly2.select('figure');
 var article2 = scrolly2.select('article');
-var step2 = article2.selectAll('.step')
+var step2 = article2.selectAll('.step');
+
+//scrolly for FRANCISCO AYALA
+var scrolly3 = main.select('#scrolly-3');
+var figure3 = scrolly3.select('figure');
+var article3 = scrolly3.select('article');
+var step3 = article3.selectAll('.step');
+
+//scrolly for LAWRENCE KRAUSS
+var scrolly4 = main.select('#scrolly-4');
+var figure4 = scrolly4.select('figure');
+var article4 = scrolly4.select('article');
+var step4 = article4.selectAll('.step');
+
+
 // initialize the scrollama
 var scroller = scrollama();
 var scroller2 = scrollama();
+var scroller3 = scrollama();
+var scroller4 = scrollama();
+
+
 // generic window resize listener event : SCROLLY 1
 function handleResize() {
   // 1. update height of step elements
@@ -47,12 +67,12 @@ function setupStickyfill() {
   });
 }
 
-// generic window resize listener event : SCROLLY 2
+// generic window resize listener event : SCROLLY 2 INDER VERMA
 function handleResize2() {
   // 1. update height of step elements
   var stepH = Math.floor(window.innerHeight * 0.75);
   //step2.style('height', stepH + 'px');
-  step2.style('200' + 'px');
+  step2.style('height', '150px');
   var figureHeight = window.innerHeight 
   var figureMarginTop = (window.innerHeight - figureHeight) /2 
   figure2
@@ -73,11 +93,66 @@ function handleStepEnter2(response) {
   figure2.select('p').text(response.index + 1);
 }
 
+// generic window resize listener event : SCROLLY 2 FRANCISCO AYALA
+function handleResize3() {
+  // 1. update height of step elements
+  var stepH = Math.floor(window.innerHeight * 0.75);
+  //step2.style('height', stepH + 'px');
+  step3.style('height', '150px');
+  var figureHeight = window.innerHeight 
+  var figureMarginTop = (window.innerHeight - figureHeight) /2 
+  figure3
+    .style('height', figureHeight + 'px')
+    .style('top', figureMarginTop + 'px');
+  // 3. tell scrollama to update new element dimensions
+  scroller3.resize();
+}
+// scrollama event handlers
+function handleStepEnter3(response) {
+  console.log(response)
+  // response = { element, direction, index }
+  // add color to current step only
+  step3.classed('is-active', function (d, i) {
+    return i === response.index;
+  })
+  // update graphic based on step
+  figure3.select('p').text(response.index + 1);
+}
+
+// generic window resize listener event : SCROLLY 2 INDER VERMA
+function handleResize4() {
+  // 1. update height of step elements
+  var stepH = Math.floor(window.innerHeight * 0.75);
+  //step2.style('height', stepH + 'px');
+  step4.style('height', '150px');
+  var figureHeight = window.innerHeight 
+  var figureMarginTop = (window.innerHeight - figureHeight) /2 
+  figure4
+    .style('height', figureHeight + 'px')
+    .style('top', figureMarginTop + 'px');
+  // 3. tell scrollama to update new element dimensions
+  scroller4.resize();
+}
+// scrollama event handlers
+function handleStepEnter4(response) {
+  console.log(response)
+  // response = { element, direction, index }
+  // add color to current step only
+  step4.classed('is-active', function (d, i) {
+    return i === response.index;
+  })
+  // update graphic based on step
+  figure4.select('p').text(response.index + 1);
+}
+
 function init() {
   setupStickyfill();
   // 1. force a resize on load to ensure proper dimensions are sent to scrollama
   handleResize();
   handleResize2();
+  handleResize3();
+  handleResize4();
+
   // 2. setup the scroller passing options
   //    this will also initialize trigger observations
   // 3. bind scrollama event handlers (this can be chained like below)
@@ -98,6 +173,24 @@ function init() {
     .onStepEnter(handleStepEnter2)
   // setup resize event
   window.addEventListener('resize', handleResize2);
+
+  scroller3.setup({
+    step: '#scrolly-3 article .step',
+    offset: 0.5,
+    debug: false,
+  })
+    .onStepEnter(handleStepEnter3)
+  // setup resize event
+  window.addEventListener('resize', handleResize3);
+
+  scroller4.setup({
+    step: '#scrolly-4 article .step',
+    offset: 0.5,
+    debug: false,
+  })
+    .onStepEnter(handleStepEnter4)
+  // setup resize event
+  window.addEventListener('resize', handleResize4);
 }
 // kick things off
 init();
@@ -113,8 +206,8 @@ var h = window.innerHeight
 
 // Set the dimensions of the canvas / graph
 var margin = {top: 10, right: 20, bottom: 30, left: 30},
-    width = w/1.4 - margin.left - margin.right,
-    height = h/1.19 - margin.top - margin.bottom;
+    width = w/1.5 - margin.left - margin.right,
+    height = h/1.18 - margin.top - margin.bottom;
 
 //parse the date
 var parseDate = d3.timeParse("%Y");

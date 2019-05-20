@@ -101,10 +101,16 @@ body{background-color: #212121;
     margin-top:0vh;
 }
 
-#step2.is-active {
-    z-index: -5;
-    color: #ffff00;
+#step3{
+    margin-bottom: 0vh;
+    margin-top:0vh;
 }
+
+#step4{
+    margin-bottom: 0vh;
+    margin-top:0vh;
+}
+
 
 article {
     position: relative;
@@ -136,6 +142,22 @@ figure {
 }
 
 #scrolly-2 {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 1rem;
+}
+
+#scrolly-3 {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 1rem;
+}
+
+#scrolly-4 {
     position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -210,6 +232,10 @@ figure {
    height: 100vh;
 }
 
+#container-4{
+    margin-top:10vh;
+}
+
 button{
     float:left;
     font-family: futura-pt, serif;
@@ -223,6 +249,10 @@ button{
 #verma-img::before{
     opacity: 0.5;
 }
+
+#krauss-img{
+    width: 100vw;
+}
 h1 {
     font-family: poynter-oldstyle-display, serif;
     color:white;
@@ -231,6 +261,8 @@ h1 {
     -webkit-text-fill-color: transparent;
     font-size:3em;
 }
+
+
 
 h2 {
     font-family: futura-pt, serif;
