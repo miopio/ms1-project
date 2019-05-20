@@ -1,59 +1,70 @@
+// ----------------------------------------------------
+// SCROLLAMA FOR SEXUAL MISCONDUCT CHART
+// ----------------------------------------------------
 
-    // using d3 for convenience
-    var main = d3.select('body')
-    var scrolly = main.select('#scrolly');
-    var figure = scrolly.select('figure');
-    var article = scrolly.select('article');
-    var step = article.selectAll('.step');
-    // initialize the scrollama
-    var scroller = scrollama();
-    // generic window resize listener event
-    function handleResize() {
-      // 1. update height of step elements
-      var stepH = Math.floor(window.innerHeight * 0.75);
-      step.style('height', stepH + 'px');
-      var figureHeight = window.innerHeight 
-      var figureMarginTop = (window.innerHeight - figureHeight) / 2  
-      figure
-        .style('height', figureHeight + 'px')
-        .style('top', figureMarginTop + 'px');
-      // 3. tell scrollama to update new element dimensions
-      scroller.resize();
-    }
-    // scrollama event handlers
-    function handleStepEnter(response) {
-      console.log(response)
-      // response = { element, direction, index }
-      // add color to current step only
-      step.classed('is-active', function (d, i) {
-        return i === response.index;
-      })
-      // update graphic based on step
-      figure.select('p').text(response.index + 1);
-    }
-    function setupStickyfill() {
-      d3.selectAll('.sticky').each(function () {
-        Stickyfill.add(this);
-      });
-    }
-    function init() {
-      setupStickyfill();
-      // 1. force a resize on load to ensure proper dimensions are sent to scrollama
-      handleResize();
-      // 2. setup the scroller passing options
-      //    this will also initialize trigger observations
-      // 3. bind scrollama event handlers (this can be chained like below)
-      scroller.setup({
-        step: '#scrolly article .step',
-        offset: 0.5,
-        debug: true,
-      })
-        .onStepEnter(handleStepEnter)
-      // setup resize event
-      window.addEventListener('resize', handleResize);
-    }
-    // kick things off
-    init();
+
+// using d3 for convenience
+var main = d3.select('body')
+var scrolly = main.select('#scrolly');
+var figure = scrolly.select('figure');
+var article = scrolly.select('article');
+var step = article.selectAll('.step');
+// initialize the scrollama
+var scroller = scrollama();
+var scroller1 = scrollama();
+// generic window resize listener event
+function handleResize() {
+  // 1. update height of step elements
+  var stepH = Math.floor(window.innerHeight * 0.75);
+  step.style('height', stepH + 'px');
+  var figureHeight = window.innerHeight 
+  var figureMarginTop = (window.innerHeight - figureHeight) /2 
+  figure
+    .style('height', figureHeight + 'px')
+    .style('top', figureMarginTop + 'px');
+  // 3. tell scrollama to update new element dimensions
+  scroller.resize();
+}
+// scrollama event handlers
+function handleStepEnter(response) {
+  console.log(response)
+  // response = { element, direction, index }
+  // add color to current step only
+  step.classed('is-active', function (d, i) {
+    return i === response.index;
+  })
+  // update graphic based on step
+  figure.select('p').text(response.index + 1);
+}
+function setupStickyfill() {
+  d3.selectAll('.sticky').each(function () {
+    Stickyfill.add(this);
+  });
+}
+function init() {
+  setupStickyfill();
+  // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+  handleResize();
+  // 2. setup the scroller passing options
+  //    this will also initialize trigger observations
+  // 3. bind scrollama event handlers (this can be chained like below)
+  scroller.setup({
+    step: '#scrolly article .step',
+    offset: 0.5,
+    debug: true,
+  })
+
+  scroller1.setup({
+    step: '#scrolly-1 article .step',
+    offset: 0.5,
+    debug: true,
+  })
+    .onStepEnter(handleStepEnter)
+  // setup resize event
+  window.addEventListener('resize', handleResize);
+}
+// kick things off
+init();
 
 
 
@@ -65,7 +76,7 @@ var w = window.innerWidth
 var h = window.innerHeight
 
 // Set the dimensions of the canvas / graph
-var margin = {top: 10, right: 30, bottom: 30, left: 30},
+var margin = {top: 10, right: 20, bottom: 30, left: 30},
     width = w/1.4 - margin.left - margin.right,
     height = h/1.19 - margin.top - margin.bottom;
 
@@ -883,7 +894,7 @@ function tooltipOn(d) {
   tooltip.transition()
        .duration(200)
        .style("opacity", .9);
-  tooltip.html("<b>" + d.name + "</b>" + "</br>" + d.value + "</br>" + d.institution + "</br>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "</a>")
+  tooltip.html("<b><span style = 'font-size: 20px; color: red'>"+ d.name + "</span></b>" + "</br>" + "<b>Outcome:  </b>" + d.value + "</br>" + "<b>Institution:  </b>" + d.institution + "</br>" +  "<b>Discipline:  </b>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "</a>")
     .style("left", gX/200 + "px")
     .style("top", gY/3 + "px")
 }//tooltipOn
@@ -914,6 +925,12 @@ svg.append("g")
 //d3.interval(function() {
 //  update();
 //}, 3000);
+
+// -----------------------
+// SCROLLAMA INDER VERMA
+// -----------------------
+
+
 
 
 //SEXUAL MISCONDUCT CASE STUDIES********************************************************************
@@ -1024,6 +1041,47 @@ var h = window.innerHeight;
     //    .attr("class", "y axis")
     //    .call(d3.axisLeft(y));
 
+    // add the tooltip area to the webpage
+/*var tooltip1 = d3.select("#chart1").append("div")
+    .data(data)
+    .attr("class", "tooltip1")
+    .style("opacity", function(d){
+      if (d.Status ==1){
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    })
+    .style("color", function(d){
+      if (d.Color == 0) {
+        return "white"
+      }
+      if (d.Color == 1) {
+        return "red"
+      }
+      else{
+      return "yellow"
+      }
+    })
+  .style("left", function(d){(x1(d.startYear)) - w/3 -50 +'px'})
+  //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
+  .style("top", function(d){
+    if (d.Color == 0){
+      return (+d3.select(this).attr("y")-200 + 'px')
+    }
+    if (d.Color == 1){
+      return (+d3.select(this).attr("y") - 200 + 'px')
+    }
+    if (d.Color == 2){
+      return (+d3.select(this).attr("y")-200 + 'px')
+    }
+  })
+  .style("top", height1+200)
+  .style("display", "inline-block")
+  .html(function(d){return "<b>" + (d.Date) + "</b>" + "<br>" + (d.Name) + "<br>" + (d.Incident)});
+  //.html("<b>" + (d.Date) + "</b>" + "<br>" + (d.Name) + "<br>" + (d.Incident));*/
+
     var bars = g1.selectAll(".bar")
         .data(data)
       .enter();
@@ -1053,11 +1111,17 @@ var h = window.innerHeight;
                     })
           //.attr("width", function(d) { return x(d.Start); })
 
+
           // adds the mouseover function
           .on("mouseover", function(d){
-             d3.select(this).attr("stroke", "black")
+             d3.select(this).style("cursor", "pointer")
             // only have a tooltip manipulation if status == 0
             if (d.Status == 0){
+              d3.select(this).attr("y", h/3-2.5)
+              d3.select(this).attr("x", function(d){return x1(d.startYear)-2.5})
+              d3.select(this).attr("height", 55)
+              d3.select(this).attr("width", function(d) {return x1(d.endYear - d.startYear) + 8;})
+              d3.select(this).attr("opacity", 0.5)
               tooltip1
                 .style("color", function(){
                     if (d.Color == 0) {
@@ -1075,22 +1139,27 @@ var h = window.innerHeight;
                 //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
                 .style("top", function(){
                   if (d.Color == 0){
-                    return (+d3.select(this).attr("y")-550 + 'px')
+                    return (+d3.select(this).attr("y")-200 + 'px')
                   }
                   if (d.Color == 1){
-                    return (+d3.select(this).attr("y") - 50 + 'px')
+                    return (+d3.select(this).attr("y") - 200 + 'px')
                   }
                   if (d.Color == 2){
-                    return (+d3.select(this).attr("y")-550 + 'px')
+                    return (+d3.select(this).attr("y")-200 + 'px')
                   }
                 })
                 .style("top", height1+200)
                 .style("opacity", 1)
                 .style("display", "inline-block")
-                .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
+                .html("<b>" + (d.Date) + "</b>" +  "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
         .on("mouseout", function(d){ 
+          d3.select(this).attr("y", h/3)
+          d3.select(this).attr("x", function(d){return x1(d.startYear)})
+          d3.select(this).attr("height", 50)
+          d3.select(this).attr("width", function(d) {return x1(d.endYear - d.startYear) + 3;})
+          d3.select(this).attr("opacity", 1)
           d3.select(this).attr("stroke", function(){
             if (d.Status == 1){
               return "black"
@@ -1099,7 +1168,53 @@ var h = window.innerHeight;
               return "none"
             }
           })
-          tooltip1.style("display", "none");})
+          tooltip1.style("display", "none")
+          tooltip1.style("opacity", function(){
+            if (d.Status ==1){
+              return 1
+            }
+            else {
+              return 0
+            }
+          });
+        })
+
+        
+
+        /*var caption = bars.append("div")
+                    .attr("class", "tooltip1")
+                    .style("color", function(d){
+                    if (d.Color == 0) {
+                      return "white"
+                    }
+                    if (d.Color == 1) {
+                      return "red"
+                    }
+                    else{
+                    return "yellow"
+                    }
+                  })
+                .style("left", function(d){(x1(d.startYear)) - w/3 -50 +'px'})
+                //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
+                .style("top", function(d){
+                  if (d.Color == 0){
+                    return (+d3.select(this).attr("y")-200 + 'px')
+                  }
+                  if (d.Color == 1){
+                    return (+d3.select(this).attr("y") - 200 + 'px')
+                  }
+                  if (d.Color == 2){
+                    return (+d3.select(this).attr("y")-200 + 'px')
+                  }
+                })
+                .style("top", height1+200)
+                .style("opacity", 1)
+                .style("display", "inline-block")
+                .html("meow")
+                .html(function(d){
+                  return ("<b>" + (d.Date) + "</b>" +  "<br>" + (d.Name) + "<br>" + (d.Incident))});*/
+
+
 
         var text_bar = bars.append('text') //this is where the text code is
                     .attr("class", "text")
@@ -1119,6 +1234,7 @@ var h = window.innerHeight;
                       })
                     .attr("font-family", "futura-pt")
                     .attr("font-size", "14px")
+                    .style("border-color", "white")
                     //.attr("width",200)
                     .attr("fill", function(d){
                         if (d.Color == 0) {
@@ -1129,7 +1245,49 @@ var h = window.innerHeight;
                         }
                         return "yellow"
                       })
-                    .call(wrap, 160)
+                    .call(wrap, 160);
+
+        var lines_bar = bars.append("line")
+                      .attr("opacity", function(d){
+                        if (d.Status ==1 ){
+                          return 1
+                        }
+                        else {
+                          return 0
+                        }
+                      })
+                      .style("stroke", function(d){
+                        if (d.Color == 0) {
+                        return "white";
+                      }
+                        if (d.Color == 1){
+                          return "red"
+                        }
+                        return "yellow"
+                      })
+                      .style("stroke-width", "1px")
+                      .style("stroke-dasharray", "5, 5")
+                      .attr("x1", function(d){return x1(d.startYear)+1})
+                      .attr("y1", function(d){
+                        if (d.Color == 0) {
+                          return h/3
+                        }
+                        if (d.Color == 2) {
+                          return h/3
+                        }
+                        return h/3+50
+                      })
+                      .attr("x2", function(d){return x1(d.startYear)+1})
+                      .attr("y2", function(d){
+                        if (d.Color == 0) {
+                          return h/3 - 130;
+                        }
+                          if (d.Color == 1){
+                            return h/3 + 80
+                          }
+                          return h/3 - 160
+                        })
+
 
                     /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){

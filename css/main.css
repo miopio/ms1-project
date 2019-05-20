@@ -81,12 +81,15 @@ body{background-color: #212121;
 .step:last-child {
     margin-bottom: 100vh;
 }
-.step.is-active p {
-    background-color: goldenrod;
-    color: #3b3b3b;
+
+.step:first-child {
+    margin-top: 100vh;
 }
+
+.step.is-active p {}
+
 .step p {
-    text-align: center;
+    text-align: left;
     padding: 1rem;
     font-size: 1rem;
     font-family: helvetica-neue, sans-serif;
@@ -96,7 +99,7 @@ body{background-color: #212121;
 article {
     position: relative;
     padding: 0;
-    max-width: 20rem;
+    max-width: 50rem;
     margin: 0 auto;
 }
 
@@ -110,6 +113,20 @@ figure {
     -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
+
+
+/* scrolly 2 */
+
+#scrolly-1 {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 1rem;
+}
+
+
+
 
 
 #header-image{
@@ -280,21 +297,23 @@ li {
 div.tooltip {
   color: black;
   position: relative;
-  text-align: center;
+  text-align: left;
   text-transform: uppercase;
-  width: 400px;
+  max-width: 400px;
   height: auto;
   padding: 5px;
   font-family: futura-pt, sans-serif;
   font-style: normal;
   background: white;
+  display: inline-block;
   border: 0px;
-  border-radius: 8px;
+  /*border-radius: 8px;*/
   pointer-events: none;
+  box-shadow: 0 6px 12px rgba(0,0,0,.5);
 }
 
 div.tooltip1 {
-  color: white;
+  background-color: #212121;
   position: relative;
   text-align: left;
   width: 250px;
@@ -302,12 +321,13 @@ div.tooltip1 {
   padding: 5px;
   font-family: futura-pt, sans-serif;
   font-style: normal;
-  font-size: 14px; ;
+  font-size: 14px; 
   /*background: white;*/
-  border: 0px;
-  border-radius: 8px;
+  border: 1px solid hsla(0,0%,43.9%,.2);
+  /*border-radius: 8px;*/
   pointer-events: none;
   line-height: 1.2;
+  box-shadow: 0 6px 12px rgba(0,0,0,.5);
 }
 
 #text{
