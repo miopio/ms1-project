@@ -29,12 +29,19 @@ var figure4 = scrolly4.select('figure');
 var article4 = scrolly4.select('article');
 var step4 = article4.selectAll('.step');
 
+//scrolly for RETENTION
+var scrolly5 = main.select('#scrolly-5');
+var figure5 = scrolly5.select('figure');
+var article5 = scrolly5.select('article');
+var step5 = article5.selectAll('.step');
+
 
 // initialize the scrollama
 var scroller = scrollama();
 var scroller2 = scrollama();
 var scroller3 = scrollama();
 var scroller4 = scrollama();
+var scroller5 = scrollama();
 
 
 // generic window resize listener event : SCROLLY 1
@@ -59,7 +66,7 @@ function handleStepEnter(response) {
     return i === response.index;
   })
   // update graphic based on step
-  figure.select('p').text(response.index + 1);
+  //figure.select('p').text(response.index + 1);
 }
 function setupStickyfill() {
   d3.selectAll('.sticky').each(function () {
@@ -90,7 +97,7 @@ function handleStepEnter2(response) {
     return i === response.index;
   })
   // update graphic based on step
-  figure2.select('p').text(response.index + 1);
+  //figure2.select('p').text(response.index + 1);
 }
 
 // generic window resize listener event : SCROLLY 2 FRANCISCO AYALA
@@ -116,7 +123,7 @@ function handleStepEnter3(response) {
     return i === response.index;
   })
   // update graphic based on step
-  figure3.select('p').text(response.index + 1);
+  //figure3.select('p').text(response.index + 1);
 }
 
 // generic window resize listener event : SCROLLY 2 INDER VERMA
@@ -142,7 +149,35 @@ function handleStepEnter4(response) {
     return i === response.index;
   })
   // update graphic based on step
-  figure4.select('p').text(response.index + 1);
+  //figure4.select('p').text(response.index + 1);
+}
+
+// generic window resize listener event : SCROLLY 2 INDER VERMA
+function handleResize5() {
+  // 1. update height of step elements
+  var stepH = Math.floor(window.innerHeight * 0.75);
+  //step2.style('height', stepH + 'px');
+   step5.style('height', stepH + 'px');
+  var figureHeight = window.innerHeight 
+  var figureMarginTop = (window.innerHeight - figureHeight) /2 
+  figure5
+    .style('height', figureHeight + 'px')
+    .style('top', figureMarginTop + 'px');
+  // 3. tell scrollama to update new element dimensions
+  scroller5.resize();
+}
+// scrollama event handlers
+function handleStepEnter5(response) {
+  console.log(response)
+  // response = { element, direction, index }
+  // add color to current step only
+  step5.classed('is-active', function (d, i) {
+    return i === response.index;
+  })
+  // update graphic based on step
+  figure5.select('p').style("color", 'yellow');
+  figure5.select('img').remove();
+  figure5.append('img').attr('src', 'img/pt2_graph2.svg').style('height', '100vh')
 }
 
 function init() {
@@ -152,6 +187,7 @@ function init() {
   handleResize2();
   handleResize3();
   handleResize4();
+  handleResize5();
 
   // 2. setup the scroller passing options
   //    this will also initialize trigger observations
@@ -191,6 +227,15 @@ function init() {
     .onStepEnter(handleStepEnter4)
   // setup resize event
   window.addEventListener('resize', handleResize4);
+
+  scroller5.setup({
+    step: '#scrolly-5 article .step',
+    offset: 0.33,
+    debug: false,
+  })
+    .onStepEnter(handleStepEnter5)
+  // setup resize event
+  window.addEventListener('resize', handleResize5);
 }
 // kick things off
 init();

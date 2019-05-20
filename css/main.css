@@ -86,8 +86,6 @@ body{background-color: #212121;
     margin-top: 100vh;
 }
 
-.step.is-active p {}
-
 .step p {
     text-align: left;
     padding: 1rem;
@@ -111,6 +109,18 @@ body{background-color: #212121;
     margin-top:0vh;
 }
 
+#pipeline{
+    height:100vh;
+    margin: 0 auto;
+
+}
+
+#step5{
+    position: relative;
+    max-width: 50rem;
+    margin: 0;
+}
+
 
 article {
     position: relative;
@@ -129,6 +139,8 @@ figure {
     -moz-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
+
+
 
 
 /* scrolly 2 */
@@ -165,6 +177,13 @@ figure {
     padding: 1rem;
 }
 
+#scrolly-5 {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 1rem;
+}
 
 
 
