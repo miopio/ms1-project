@@ -51,7 +51,8 @@ function setupStickyfill() {
 function handleResize2() {
   // 1. update height of step elements
   var stepH = Math.floor(window.innerHeight * 0.75);
-  step2.style('height', stepH + 'px');
+  //step2.style('height', stepH + 'px');
+  step2.style('200' + 'px');
   var figureHeight = window.innerHeight 
   var figureMarginTop = (window.innerHeight - figureHeight) /2 
   figure2
@@ -83,7 +84,7 @@ function init() {
   scroller.setup({
     step: '#scrolly article .step',
     offset: 0.5,
-    debug: true,
+    debug: false,
   })
     .onStepEnter(handleStepEnter)
   // setup resize event
@@ -92,7 +93,7 @@ function init() {
   scroller2.setup({
     step: '#scrolly-2 article .step',
     offset: 0.5,
-    debug: true,
+    debug: false,
   })
     .onStepEnter(handleStepEnter2)
   // setup resize event
@@ -974,7 +975,7 @@ svg.append("g")
 // -----------------------
 var w = window.innerWidth;
 
-var margin1 = {top: 10, right: 30, bottom: 30, left: 50},
+var margin1 = {top: 10, right: 30, bottom: 30, left: 30},
     width1 = w - margin1.left - margin1.right - w/8,
     height1 = 240 - margin1.top - margin1.bottom;
 
@@ -1138,12 +1139,6 @@ var h = window.innerHeight;
               }
               return "yellow"
             })
-          .attr("stroke", function(d){
-                      if (d.Status == 1){
-                        return "black"
-                      }
-                      return "none"
-                    })
           //.attr("width", function(d) { return x(d.Start); })
 
 
@@ -1195,14 +1190,6 @@ var h = window.innerHeight;
           d3.select(this).attr("height", 50)
           d3.select(this).attr("width", function(d) {return x1(d.endYear - d.startYear) + 3;})
           d3.select(this).attr("opacity", 1)
-          d3.select(this).attr("stroke", function(){
-            if (d.Status == 1){
-              return "black"
-            }
-            if (d.Status == 0){
-              return "none"
-            }
-          })
           tooltip1.style("display", "none")
           tooltip1.style("opacity", function(){
             if (d.Status ==1){
@@ -1255,7 +1242,7 @@ var h = window.innerHeight;
                     .attr("class", "text")
                     .text((d)  => {
                       if (d.Status == 1)
-                      return (d.Date + d.Incident)
+                      return (d.Date + " " +d.Incident)
                     })
                     .attr("x", function(d){return x1(d.startYear)})
                     .attr("y", function(d){
@@ -1343,15 +1330,42 @@ var h = window.innerHeight;
                               y = text.attr("y"),
                               dy = 1,
                               //dy = parseFloat(text.attr("dy")),
-                              tspan = text.text(null).append("tspan").attr("x", function(d){return x1(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+                              tspan = text.text(null).append("tspan").attr("x", function(d){return 5+x1(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+
+
+
+                          word = words.pop()
+                          line.push(word);
+                          tspan.text(line.join(" "));
+                          word = words.pop()
+                          line.push(word);
+                          tspan.text(line.join(" "));
+
+                          line.pop();
+                          tspan.text(line.join(" "));
+                          line = [word];
+                          tspan = text.append("tspan").attr("x", function(d){return 5+x1(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+
+                          // console.log("LOOK HERE")
+                          // console.log(words)
+                          // line = [word];
+                          // console.log("1st LINE")
+                          // console.log(line)
+                          // tspan = text.append("tspan").attr("x", function(d){return 5+x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);                          
+                          // tspan.text(line.join(" "));                          
+                          // line.pop();
+                          // tspan.text(line.join(" "));
+
+
                           while (word = words.pop()) {
+                            console.log(word)
                             line.push(word);
                             tspan.text(line.join(" "));
                             if (tspan.node().getComputedTextLength() > width) {
                               line.pop();
                               tspan.text(line.join(" "));
                               line = [word];
-                              tspan = text.append("tspan").attr("x", function(d){return x1(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                              tspan = text.append("tspan").attr("x", function(d){return 5+x1(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
                             }
                           }
                         });
@@ -1444,18 +1458,6 @@ console.log(h1);
     .attr("class", "tooltip1")
     .style("opacity", 0);*/
 
-    //x1.domain(d3.extent(data, function(d) { return d.End; }));
-    //y.domain(data.map(function(d) { return d.Name; })).padding(0.1);
-
-   /*g1.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height1 + ")")
-        .style("stroke", "white")
-        //.call(d3.axisBottom(x).ticks(5).tickFormat(function(d) { return parseInt(d / 1000); }).tickSizeInner([-height1]));
-*/
-    //g1.append("g1")
-    //    .attr("class", "y axis")
-    //    .call(d3.axisLeft(y));
 
     var bars = g1a.selectAll(".bar")
         .data(data)
@@ -1478,19 +1480,18 @@ console.log(h1);
               }
               return "yellow"
             })
-          .attr("stroke", function(d){
-                      if (d.Status == 1){
-                        return "black"
-                      }
-                      return "none"
-                    })
-          //.attr("width", function(d) { return x(d.Start); })
+
 
           // adds the mouseover function
           .on("mouseover", function(d){
-            d3.select(this).attr("stroke", "black")
+            d3.select(this).style("cursor", "pointer")
             // only have a tooltip manipulation if status == 0
             if (d.Status == 0){
+              d3.select(this).attr("y", h/3-2.5)
+              d3.select(this).attr("x", function(d){return x1a(d.startYear)-2.5})
+              d3.select(this).attr("height", 55)
+              d3.select(this).attr("width", function(d) {return x1a(d.endYear - d.startYear) + 8;})
+              d3.select(this).attr("opacity", 0.5)
               tooltip1a
                 .style("color", function(){
                     if (d.Color == 0) {
@@ -1507,31 +1508,27 @@ console.log(h1);
                 //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
                 .style("top", function(){
                   if (d.Color == 0){
-                    return (+d3.select(this).attr("y")-550 + 'px')
+                    return (+d3.select(this).attr("y")-200 + 'px')
                   }
                   if (d.Color == 1){
-                    return (+d3.select(this).attr("y") - 50 + 'px')
+                    return (+d3.select(this).attr("y") - 200 + 'px')
                   }
                   if (d.Color == 2){
-                    return (+d3.select(this).attr("y")-550 + 'px')
+                    return (+d3.select(this).attr("y")-200 + 'px')
                   }
                 })
-                //.style("top", 50)
-                //.style("top", height1a + (+d3.select(this).attr("y")) + 'px')
+                .style("top", height1+200)
                 .style("opacity", 1)
                 .style("display", "inline-block")
-                .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
+                .html("<b>" + (d.Date) + "</b>" +  "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
         .on("mouseout", function(d){ 
-          d3.select(this).attr("stroke", function(){
-            if (d.Status == 1){
-              return "black"
-            }
-            if (d.Status == 0){
-              return "none"
-            }
-          })
+          d3.select(this).attr("y", h/3)
+          d3.select(this).attr("x", function(d){return x1a(d.startYear)})
+          d3.select(this).attr("height", 50)
+          d3.select(this).attr("width", function(d) {return x1a(d.endYear - d.startYear) + 3;})
+          d3.select(this).attr("opacity", 1)
           tooltip1a.style("display", "none");})
 
       /*var captions = d3.select("#chart2") //this creates divs but positions and colors don't work
@@ -1566,7 +1563,8 @@ console.log(h1);
                     .attr("class", "text")
                     .text((d)  => {
                       if(d.Status ==1){
-                      return (d.Date + d.Incident)
+                      return (d.Date  + " " +d.Incident)
+                      // return ("<tspan x='0' dy='0em'>"+d.Date+"</tspan>" + "<tspan x='0' dy='2em'>"+d.Incident+"</tspan>")
                       }
                     })
                     .attr("x", function(d){return x1a(d.startYear)})
@@ -1598,6 +1596,47 @@ console.log(h1);
                       })
                     .call(wrap, 160)
 
+      var lines_bar1 = bars.append("line")
+                      .attr("opacity", function(d){
+                        if (d.Status ==1 ){
+                          return 1
+                        }
+                        else {
+                          return 0
+                        }
+                      })
+                      .style("stroke", function(d){
+                        if (d.Color == 0) {
+                        return "white";
+                      }
+                        if (d.Color == 1){
+                          return "red"
+                        }
+                        return "yellow"
+                      })
+                      .style("stroke-width", "1px")
+                      .style("stroke-dasharray", "2, 2")
+                      .attr("x1", function(d){return x1a(d.startYear)+1})
+                      .attr("y1", function(d){
+                        if (d.Color == 0) {
+                          return h/3
+                        }
+                        if (d.Color == 2) {
+                          return h/3
+                        }
+                        return h/3+50
+                      })
+                      .attr("x2", function(d){return x1a(d.startYear)+1})
+                      .attr("y2", function(d){
+                        if (d.Color == 0) {
+                          return h/3 - 130;
+                        }
+                          if (d.Color == 1){
+                            return h/3 + 80
+                          }
+                          return h/3 - 160
+                        })
+
                     /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){
                         return "translate(" + x +"," + 20 + ")";
@@ -1616,15 +1655,42 @@ console.log(h1);
                               y = text.attr("y"),
                               dy = 1,
                               //dy = parseFloat(text.attr("dy")),
-                              tspan = text.text(null).append("tspan").attr("x", function(d){return x1a(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+                              tspan = text.text(null).append("tspan").attr("x", function(d){return 5+x1a(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+
+
+
+                          word = words.pop()
+                          line.push(word);
+                          tspan.text(line.join(" "));
+                          word = words.pop()
+                          line.push(word);
+                          tspan.text(line.join(" "));
+
+                          line.pop();
+                          tspan.text(line.join(" "));
+                          line = [word];
+                          tspan = text.append("tspan").attr("x", function(d){return 5+x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+
+                          // console.log("LOOK HERE")
+                          // console.log(words)
+                          // line = [word];
+                          // console.log("1st LINE")
+                          // console.log(line)
+                          // tspan = text.append("tspan").attr("x", function(d){return 5+x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);                          
+                          // tspan.text(line.join(" "));                          
+                          // line.pop();
+                          // tspan.text(line.join(" "));
+
+
                           while (word = words.pop()) {
+                            console.log(word)
                             line.push(word);
                             tspan.text(line.join(" "));
                             if (tspan.node().getComputedTextLength() > width) {
                               line.pop();
                               tspan.text(line.join(" "));
                               line = [word];
-                              tspan = text.append("tspan").attr("x", function(d){return x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                              tspan = text.append("tspan").attr("x", function(d){return 5+x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
                             }
                           }
                         });
@@ -1662,7 +1728,7 @@ var svg1b = d3.select("#chart3")
 
 // add the tooltip area to the webpage
 var tooltip1b = d3.select("#chart3").append("div")
-    .attr("class", "tooltip1b")
+    .attr("class", "tooltip1")
     .style("opacity", 0);
 
 var file1b = "data/caseStudy_Krauss.csv";
@@ -1749,19 +1815,17 @@ var h = window.innerHeight;
               }
               return "yellow"
             })
-          .attr("stroke", function(d){
-                      if (d.Status == 1){
-                        return "black"
-                      }
-                      return "none"
-                    })
-          //.attr("width", function(d) { return x(d.Start); })
 
           // adds the mouseover function
           .on("mouseover", function(d){
+            d3.select(this).style("cursor", "pointer")
             // only have a tooltip manipulation if status == 0
-            d3.select(this).attr("stroke", "black")
             if (d.Status == 0){
+              d3.select(this).attr("y", h/3-2.5)
+              d3.select(this).attr("x", function(d){return x1b(d.startYear)-2.5})
+              d3.select(this).attr("height", 55)
+              d3.select(this).attr("width", function(d) {return x1b(d.endYear - d.startYear) + 8;})
+              d3.select(this).attr("opacity", 0.5)
               tooltip1b
                 .style("color", function(){
                     if (d.Color == 0) {
@@ -1773,37 +1837,33 @@ var h = window.innerHeight;
                     else{
                     return "yellow"
                     }
-                  }
-                )
-                .style("left", (x1a(d.startYear)) - w/3 -50 +'px')
+                  })
+                .style("left", (x1b(d.startYear)) - w/3 -50 +'px')
                 //.style("top", (+d3.select(this).attr("y")-500 + 'px'))
                 .style("top", function(){
                   if (d.Color == 0){
-                    return (+d3.select(this).attr("y")-550 + 'px')
+                    return (+d3.select(this).attr("y")-200 + 'px')
                   }
                   if (d.Color == 1){
-                    return (+d3.select(this).attr("y") - 50 + 'px')
+                    return (+d3.select(this).attr("y") - 200 + 'px')
                   }
                   if (d.Color == 2){
-                    return (+d3.select(this).attr("y")-550 + 'px')
+                    return (+d3.select(this).attr("y")-200 + 'px')
                   }
                 })
+                .style("top", height1+200)
                 .style("opacity", 1)
                 .style("display", "inline-block")
-                .html((d.Date) + "<br>" + (d.Name) + "<br>" + (d.Incident));
+                .html("<b>" + (d.Date) + "</b>" +  "<br>" + (d.Name) + "<br>" + (d.Incident));
             }
           })
         .on("mouseout", function(d){ 
-          d3.select(this).attr("stroke", function(){
-            if (d.Status == 1){
-              return "black"
-            }
-            if (d.Status == 0){
-              return "none"
-            }
-          })
-          tooltip1b.style("display", "none")
-        ;})
+          d3.select(this).attr("y", h/3)
+          d3.select(this).attr("x", function(d){return x1b(d.startYear)})
+          d3.select(this).attr("height", 50)
+          d3.select(this).attr("width", function(d) {return x1b(d.endYear - d.startYear) + 3;})
+          d3.select(this).attr("opacity", 1)
+          tooltip1b.style("display", "none");})
 
       /*var captions = d3.select("#chart2") //this creates divs but positions and colors don't work
                     .selectAll("div")
@@ -1837,10 +1897,10 @@ var h = window.innerHeight;
                     .attr("class", "text")
                     .text((d)  => {
                       if(d.Status ==1){
-                      return (d.Date + d.Incident)
+                      return (d.Date + " " + d.Incident)
                       }
                     })
-                    .attr("x", function(d){return x1a(d.startYear)})
+                    .attr("x", function(d){return x1b(d.startYear)})
                     .attr("y", function(d){
                       if (d.Color == 0) {
                         return h/3 - 130;
@@ -1864,6 +1924,47 @@ var h = window.innerHeight;
                       })
                     .call(wrap, 160)
 
+      var lines_bar2 = bars.append("line")
+                      .attr("opacity", function(d){
+                        if (d.Status ==1 ){
+                          return 1
+                        }
+                        else {
+                          return 0
+                        }
+                      })
+                      .style("stroke", function(d){
+                        if (d.Color == 0) {
+                        return "white";
+                      }
+                        if (d.Color == 1){
+                          return "red"
+                        }
+                        return "yellow"
+                      })
+                      .style("stroke-width", "1px")
+                      .style("stroke-dasharray", "2, 2")
+                      .attr("x1", function(d){return x1b(d.startYear)+1})
+                      .attr("y1", function(d){
+                        if (d.Color == 0) {
+                          return h/3
+                        }
+                        if (d.Color == 2) {
+                          return h/3
+                        }
+                        return h/3+50
+                      })
+                      .attr("x2", function(d){return x1b(d.startYear)+1})
+                      .attr("y2", function(d){
+                        if (d.Color == 0) {
+                          return h/3 - 130;
+                        }
+                          if (d.Color == 1){
+                            return h/3 + 80
+                          }
+                          return h/3 - 160
+                        })
+
                     /*.attr('transform', (d) => { 
                       if (d.Name =="NA"){
                         return "translate(" + x +"," + 20 + ")";
@@ -1882,15 +1983,42 @@ var h = window.innerHeight;
                               y = text.attr("y"),
                               dy = 1,
                               //dy = parseFloat(text.attr("dy")),
-                              tspan = text.text(null).append("tspan").attr("x", function(d){return x1b(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+                              tspan = text.text(null).append("tspan").attr("x", function(d){return 5+x1b(d.startYear)}).attr("y", y).attr("dy", dy + "em");
+
+
+
+                          word = words.pop()
+                          line.push(word);
+                          tspan.text(line.join(" "));
+                          word = words.pop()
+                          line.push(word);
+                          tspan.text(line.join(" "));
+
+                          line.pop();
+                          tspan.text(line.join(" "));
+                          line = [word];
+                          tspan = text.append("tspan").attr("x", function(d){return 5+x1b(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+
+                          // console.log("LOOK HERE")
+                          // console.log(words)
+                          // line = [word];
+                          // console.log("1st LINE")
+                          // console.log(line)
+                          // tspan = text.append("tspan").attr("x", function(d){return 5+x1a(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);                          
+                          // tspan.text(line.join(" "));                          
+                          // line.pop();
+                          // tspan.text(line.join(" "));
+
+
                           while (word = words.pop()) {
+                            console.log(word)
                             line.push(word);
                             tspan.text(line.join(" "));
                             if (tspan.node().getComputedTextLength() > width) {
                               line.pop();
                               tspan.text(line.join(" "));
                               line = [word];
-                              tspan = text.append("tspan").attr("x", function(d){return x1b(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                              tspan = text.append("tspan").attr("x", function(d){return 5+x1b(d.startYear)}).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
                             }
                           }
                         });

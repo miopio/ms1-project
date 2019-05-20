@@ -79,7 +79,7 @@ body{background-color: #212121;
 }
 
 .step:last-child {
-    margin-bottom: 100vh;
+    margin-bottom: 0vh;
 }
 
 .step:first-child {
@@ -94,6 +94,16 @@ body{background-color: #212121;
     font-size: 1rem;
     font-family: helvetica-neue, sans-serif;
     background-color: #212121;
+}
+
+#step2{
+    margin-bottom: 0vh;
+    margin-top:0vh;
+}
+
+#step2.is-active {
+    z-index: -5;
+    color: #ffff00;
 }
 
 article {
@@ -216,9 +226,9 @@ button{
 h1 {
     font-family: poynter-oldstyle-display, serif;
     color:white;
-    /*background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
+    background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;*/
+    -webkit-text-fill-color: transparent;
     font-size:3em;
 }
 
