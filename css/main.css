@@ -92,11 +92,21 @@ body{background-color: #212121;
     font-size: 1rem;
     font-family: helvetica-neue, sans-serif;
     background-color: #212121;
+    /*border: 1px solid red;*/
+}
+
+
+.step h4 {
+    text-align: left;
+    padding: 1rem;
+    font-family: futura-pt, sans-serif;
+    background-color: #212121;
 }
 
 #step2{
     margin-bottom: 0vh;
     margin-top:0vh;
+    background-color: #212121;
 }
 
 #step3{
@@ -185,7 +195,11 @@ figure {
     padding: 1rem;
 }
 
-
+hr{
+    border:0;
+    height:1px;
+    background: #757575;
+}
 
 
 #header-image{
@@ -319,6 +333,11 @@ p {
 li {
     font-family: "futura-pt", serif;
     color: white;
+    background-color: #212121;
+}
+
+ul {
+    background-color: #212121;
 }
 
 .container{
@@ -376,9 +395,10 @@ div.tooltip {
   background: white;
   display: inline-block;
   border: 0px;
-  /*border-radius: 8px;*/
+  border-radius: 5px;
   pointer-events: none;
   box-shadow: 0 6px 12px rgba(0,0,0,.5);
+  margin: 5px;
 }
 
 div.tooltip1 {

@@ -177,7 +177,7 @@ function handleStepEnter5(response) {
   // update graphic based on step
   figure5.select('p').style("color", 'yellow');
   figure5.select('img').remove();
-  figure5.append('img').attr('src', 'img/pt2_graph2.svg').style('height', '100vh')
+  figure5.append('img').attr('src', 'img/pt2_graph2.svg').style('height', '100vh').style('')
 }
 
 function init() {
@@ -1099,10 +1099,6 @@ svg.append("g")
 //d3.interval(function() {
 //  update();
 //}, 3000);
-
-// -----------------------
-// SCROLLAMA INDER VERMA
-// -----------------------
 
 
 
