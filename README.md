@@ -13,7 +13,7 @@ Through the visualization of publicly available sexual misconduct cases, detaile
 
 ## Process
 ### Data Collection 
-Sexual Misconduct Overview
+#### Sexual Misconduct Overview
 Data was collected from multiple sources for each of the major issues covered in this project. Details of sexual misconduct in academia were obtained by a database compiled by the Geocognition Research Laboratory at Michigan State university, helmed by Julie Libarkin, a professor of Earth and Environmental Sciences. This database, titled “The Academic Sexual Misconduct and Violations of Relationship Policies Database”, lists all publicly available cases of sexual misconduct and violation of relationship policies at US institutions, starting as early as 1987. For each case mentioned, the database lists the name, institution, discipline, outcome, and links to media sources outlining details of the case. From this, only cases pertaining to perpetrators in STEM disciplines were extracted for use in the visualization.
 
 #### Sexual Misconduct Case Studies
