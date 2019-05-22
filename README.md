@@ -2,6 +2,7 @@
 ## Sexual misconduct, harassment, and discrimination: tackling the outdated treatment of women in STEM Academia
 
 Website: https://miopio.github.io/ms1-project
+
 Paper: https://github.com/miopio/ms1-project/blob/master/project%20paper/MS1_thesis.pdf
 
 
