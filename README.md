@@ -1,7 +1,9 @@
 # Cutting Edge? Not So Much.
 ## Sexual misconduct, harassment, and discrimination: tackling the outdated treatment of women in STEM Academia
 
-https://miopio.github.io/ms1-project
+Website(https://miopio.github.io/ms1-project)
+Paper()
+
 
 ## Project Abstract
 STEM academia, a historically male dominated environment, has brought many bouts of hardship to women pursuing careers in the field. Sexual misconduct, harassment, and discrimination are rampant--the National Academy of Sciences reported in 2018 that the rate of sexual harassment in STEM is second only to that of the military. These cases of sexual harassment are often times overlooked and even condoned by institutions that first and foremost are concerned about their reputations, and the reputations of those who bring them recognition and funding. Perpetuating these behaviors is harmful to society as a whole--having imbalanced representation in STEM research not only negatively impacts the women in the field, but spreads to other areas of society. For example, because clinical trials and medical research have historically been conducted on male populations, women’s medical conditions are frequently misdiagnosed and leads to higher rates of mortality in women (i.e. misdiagnosis of heart attacks).
@@ -19,7 +21,7 @@ For the visualization, it was necessary to find a way to represent each individu
 
 The histogram served its purpose of allowing for interaction with each individual case, but it was difficult to visually observe the numbers of cases that came to each outcome in the stacked chart. I decided to remedy this by allowing the user to filter results by outcome. I inserted buttons for each outcome category, which upon clicking, updates the histogram to include only the dots for the selected category. This made tracking the numbers of cases in each category over time a little easier. 
 
-![dfdf](https://github.com/miopio/ms1-project/blob/master/demo/sexual_misconduct.png)
+![Dot plot histogram for sexual misconduct database](https://github.com/miopio/ms1-project/blob/master/demo/sexual_misconduct.png)
 
 #### Sexual Misconduct Case Studies
 I wanted to visualize each of the three case studies I selected on its own timeline--for each timeline, I wanted to compare incidents of sexual misconduct vs notable career achievements over time. To organize the data in a form that would be callable, I inputted the text data obtained from the media articles mentioned above in .csv files. I recorded the year, name of complainant (if any), and description of the incident. The timeline was made with D3.
@@ -28,10 +30,19 @@ Each timeline was represented by a rectangle, one end being 1970 and the other e
 
 Though this was a workable visualization, it was necessary to have some data points that were static, so users could get a general overview of each person’s timeline without interacting with the data. In order to do this, I picked a few incidents to represent at static text captions, and encoded this in the .csv under a “status” column: “0” for not visible, “1” for static. These incidents were then plotted on the timeline, depending on their category type--career achievements and official complaints were plotted on top, while incidents of harassment were plotted on the bottom. The aim was to create a sort of dichotomy of “good” vs “bad” across the timeline of each person’s career.
 
+![Inder Verma](https://github.com/miopio/ms1-project/blob/master/demo/inder_verma.png)
+![Francisco Ayala](https://github.com/miopio/ms1-project/blob/master/demo/francisco_ayala.png)
+![Lawrence Krauss](https://github.com/miopio/ms1-project/blob/master/demo/lawrence_krauss.png)
+
 #### Retention Rates of Women in STEM Academia
 To paint an easily comprehensible picture of the numbers of women in STEM academia, I consolidated the data from the Columbia and NYU faculty equity reports into two graphs: one, which compared the rates of female tenured/tenure-track professors in STEM to other disciplines, and two, which compared the rates of females at each step in the academic career ladder in STEM academia. The former required some data processing in order to match the data from Columbia to that of NYU. The percent rates had to be calculated by raw numbers of people, and the years used were only the years that had complete data from both datasets--Columbia published numbers for 2000 and every year from 2004 to 2016, while NYU published every five years from 2000 to 2010, and every two years from 2010 to 2018. The latter graph was made only by data from Columbia, because it was not possible to extract this data from the NYU reports. This required combining information found from three Columbia reports into one graphic, although no additional calculation was necessary to clean the data. The first graph was made in Excel then edited in Illustrator, while the second graph was made and edited in Illustrator.
 
-## Visualizations
+![Women in STEM Academia pt 1](https://github.com/miopio/ms1-project/blob/master/demo/retention_1.png)
+![Women in STEM Academia pt 2](https://github.com/miopio/ms1-project/blob/master/demo/retention_2.png)
+
+## Project Demo
+
+[See a video demo of the project here](https://github.com/miopio/ms1-project/blob/master/demo/demo_video.mov)
 
 ## Data Sources
 
