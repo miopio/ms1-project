@@ -255,7 +255,7 @@ var h = window.innerHeight
 // Set the dimensions of the canvas / graph
 var margin = {top: 10, right: 20, bottom: 30, left: 30},
     width = w/1.5 - margin.left - margin.right,
-    height = h/1.18 - margin.top - margin.bottom;
+    height = h/1.20 - margin.top - margin.bottom;
 
 //parse the date
 var parseDate = d3.timeParse("%Y");
