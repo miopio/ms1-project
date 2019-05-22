@@ -177,7 +177,10 @@ function handleStepEnter5(response) {
   // update graphic based on step
   figure5.select('p').style("color", 'yellow');
   figure5.select('img').remove();
-  figure5.append('img').attr('src', 'img/pt2_graph2.svg').style('height', '100vh').style('')
+  figure5.append('img').attr('src', 'img/pt2_graph2.svg')
+        .style('height', '100vh')
+        .style('margin-right', '10vw')
+        .attr('align', 'right');
 }
 
 function init() {
@@ -328,8 +331,9 @@ d3.csv(file, function(error, data0) {
 
 
     // Set up the binning parameters for the histogram
-    var nbins = 189;
-    //var nbins = eval("data"+dataIndex).length;
+    var nbins = 38;
+    //var nbins = eval("data"+dataIndex).length; 189
+    console.log(nbins);
 
 
     var histogram = d3.histogram()
@@ -341,6 +345,7 @@ d3.csv(file, function(error, data0) {
     //var bins = histogram(eval("data"+dataIndex));
     var bins = histogram(eval("data"+dataIndex));
     //var bins = histogram(data0).filter(d => d.length>0)
+    console.log(bins);
 
  //g container for each bin
     let binContainer = svg.selectAll(".gBin")
@@ -363,7 +368,7 @@ d3.csv(file, function(error, data0) {
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
       .enter()
@@ -398,9 +403,9 @@ d3.csv(file, function(error, data0) {
     d3.select("#legend").append("button")
         .text("No Action")
         .style("background-color", "#212121")
-        .style("border-color", "yellow")
+        .style("border-color", "#424242")
         .on("mouseover", function(d){
-             d3.select(this).style("background-color", "yellow")
+             d3.select(this).style("background-color", "#424242")
         })
         .on("mouseout", function(d){
              d3.select(this).style("background-color", "#212121")
@@ -430,7 +435,7 @@ d3.csv(file, function(error, data0) {
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -471,9 +476,9 @@ d3.csv(file, function(error, data0) {
 d3.select("#legend").append("button")
     .text("Resigned/retired")
     .style("background-color", "#212121")
-    .style("border-color", "#f7931e")
+    .style("border-color", "#757575")
     .on("mouseover", function(d){
-         d3.select(this).style("background-color", "#f7931e")
+         d3.select(this).style("background-color", "#757575")
     })
     .on("mouseout", function(d){
          d3.select(this).style("background-color", "#212121")
@@ -503,7 +508,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -544,9 +549,9 @@ d3.select("#legend").append("button")
 d3.select("#legend").append("button")
     .text("Demoted/reprimanded")
     .style("background-color", "#212121")
-    .style("border-color", "#f989a4")
+    .style("border-color", "#ffff00")
     .on("mouseover", function(d){
-         d3.select(this).style("background-color", "#f989a4")
+         d3.select(this).style("background-color", "#ffff00")
     })
     .on("mouseout", function(d){
          d3.select(this).style("background-color", "#212121")
@@ -576,7 +581,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -617,9 +622,9 @@ d3.select("#legend").append("button")
 d3.select("#legend").append("button")
     .text("Suspended")
     .style("background-color", "#212121")
-    .style("border-color", "#fa37d9")
+    .style("border-color", "#f7931e")
     .on("mouseover", function(d){
-         d3.select(this).style("background-color", "#fa37d9")
+         d3.select(this).style("background-color", "#f7931e")
     })
     .on("mouseout", function(d){
          d3.select(this).style("background-color", "#212121")
@@ -649,7 +654,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -722,7 +727,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -763,9 +768,9 @@ d3.select("#legend").append("button")
 d3.select("#legend").append("button")
     .text("Lawsuit settled/monetary punishment")
     .style("background-color", "#212121")
-    .style("border-color", "#d4145a")
+    .style("border-color", "#fa37d9")
     .on("mouseover", function(d){
-         d3.select(this).style("background-color", "#d4145a")
+         d3.select(this).style("background-color", "#fa37d9")
     })
     .on("mouseout", function(d){
          d3.select(this).style("background-color", "#212121")
@@ -795,7 +800,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -836,9 +841,9 @@ d3.select("#legend").append("button")
 d3.select("#legend").append("button")
     .text("Banned from premesis")
     .style("background-color", "#212121")
-    .style("border-color", "#914c0f")
+    .style("border-color", "#d4145a")
     .on("mouseover", function(d){
-         d3.select(this).style("background-color", "#914c0f")
+         d3.select(this).style("background-color", "#d4145a")
     })
     .on("mouseout", function(d){
          d3.select(this).style("background-color", "#212121")
@@ -868,7 +873,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -941,7 +946,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.7
                 }
         }))
 
@@ -1014,7 +1019,7 @@ d3.select("#legend").append("button")
                   discipline: p["Discipline or Domain"],
                   color: p.Color,
                   link: p["Link(s)"],
-                  radius: (x(d.x1)-x(d.x0))*1.5
+                  radius: (x(d.x1)-x(d.x0))/2.6
                 }
         }))
 
@@ -1071,6 +1076,7 @@ function tooltipOn(d) {
   tooltip.html("<b><span style = 'font-size: 20px; color: red'>"+ d.name + "</span></b>" + "</br>" + "<b>Outcome:  </b>" + d.value + "</br>" + "<b>Institution:  </b>" + d.institution + "</br>" +  "<b>Discipline:  </b>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "</a>")
     .style("left", gX/200 + "px")
     .style("top", gY/3 + "px")
+    .style("margin", "10px")
 }//tooltipOn
 
 function tooltipOff(d) {

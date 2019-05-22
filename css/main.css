@@ -124,7 +124,7 @@ body{background-color: #212121;
 
 #pipeline{
     height:100vh;
-    margin: 0 auto;
+    margin-right: 10vw;
 
 }
 
@@ -221,7 +221,7 @@ hr{
 .masthead {
   height: 100vh;
   min-height: 500px;
-  /*background-image: url('/img/ms1-project_cover.png');*/
+  background-image: url('/img/ms1-project_cover_v2.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
