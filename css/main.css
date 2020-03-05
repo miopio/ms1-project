@@ -2,7 +2,7 @@
 html {
     /*color: #222;*/
     font-size: 1em;
-    line-height: 1.4;
+    line-height: 1.7;
 }
 
 ::-moz-selection {
@@ -228,7 +228,9 @@ hr{
 }
 
 #heading{
-    font-family: poynter-oldstyle-display, serif;
+    /*font-family: poynter-oldstyle-display, serif;*/
+    font-family: 'playfair display', serif;
+    font-weight: 900;
     color: white;
     font-size: 5em;
     font-color: white;
@@ -290,7 +292,9 @@ button{
     width: 100vw;
 }
 h1 {
-    font-family: poynter-oldstyle-display, serif;
+    /*font-family: poynter-oldstyle-display, serif;*/
+    font-family: 'playfair display', serif;
+    font-weight: 900;
     color:white;
     background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
     -webkit-background-clip: text;
@@ -309,6 +313,7 @@ h2 {
 h4 {
     font-family: futura-pt, serif;
     color: white;
+    font-size: 28px;
 }
 
 
@@ -321,16 +326,22 @@ h3 {
 }
 
 h5 {
-    font-family: poynter-oldstyle-display, serif;
+    /*font-family: poynter-oldstyle-display, serif;*/
+    font-family: 'playfair display', serif;
+    font-weight: 500;
     background: -webkit-linear-gradient(315deg, #bf033b 0%, #ffc719 74%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    line-height: 1.7;
 }
 
 p {
     font-family: 'helvetica-neue', sans-serif;
     font-weight: 300;
+    font-size: 17px;
     color: white;
+    line-height: 1.7;
+    margin: 1.5rem 0;
 }
 
 li {
