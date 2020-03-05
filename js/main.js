@@ -1321,7 +1321,15 @@ var h = window.innerHeight;
                 .style("top", height1+200)
                 .style("opacity", 1)
                 .style("display", "inline-block")
-                .html("<b>" + (d.Date) + "</b>" +  "<br>" + (d.Name) + "<br>" + (d.Incident));
+                //.html("<b>" + (d.Date) + "</b>" +  "<br>" + (d.Name) + "<br>" + (d.Incident));
+                .html(function(){
+                  if (d.Name == "NA"){
+                    return ("<b>" + (d.Date) + "</b>" +  "<br>" + (d.Incident))
+                  }
+                  else {
+                    return ("<b>" + (d.Date) + "</b>" +  "<br><span style = 'color: #ffffff'; 'margin-bottom: 1vh'; >" + (d.Name) + "</span><br>" + (d.Incident));
+                  }
+                })
             }
           })
         .on("mouseout", function(d){ 
