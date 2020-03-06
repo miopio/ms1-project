@@ -1073,7 +1073,7 @@ function tooltipOn(d) {
   tooltip.transition()
        .duration(200)
        .style("opacity", .9);
-  tooltip.html("<b><span style = 'font-size: 20px; color: red'>"+ d.name + "</span></b>" + "</br>" + "<b>Outcome:  </b>" + d.value + "</br>" + "<b>Institution:  </b>" + d.institution + "</br>" +  "<b>Discipline:  </b>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "</a>")
+  tooltip.html("<b><span style = 'font-size: 20px; color: #bf033b; text-transform: uppercase;'>"+ d.name + "</span></b>" + "</br>" + "<b>Outcome:  </b>" + d.value + "</br>" + "<b>Institution:  </b>" + d.institution + "</br>" +  "<b>Discipline:  </b>" + d.discipline + "</br>" + "<a href= '" + d.link + "''>" + "</a>")
     .style("left", gX/200 + "px")
     .style("top", gY/3 + "px")
     .style("margin", "10px")
